@@ -1,0 +1,236 @@
+{
+  "metaData": {
+    "title": "說明頁表單",
+    "description": "說明頁",
+    "keywords": "說明頁"
+  },
+  "styles": {
+    "background_color": "#fff",
+    "content_color": "#fff"
+  },
+  "instr_field_type": {
+    "static_image": {
+      "type": "single_static_image",
+      "register_name": "static_image",
+      "label": "上傳說明圖"
+    },
+    "input_text": {
+      "type": "text",
+      "register_name": "text",
+      "default_label": "請輸入欄位",
+      "default_placeholder": "請輸入",
+      "max_length": 10
+    },
+    "input_number": {
+      "type": "number",
+      "register_name": "number",
+      "default_label": "請輸入欄位",
+      "default_placeholder": 0,
+      "min": { "value": 1, "message": "需大於或等於 1" },
+      "max": { "value": 5000, "message": "需小於或等於 5000" },
+      "pattern": {
+        "value": "^[1-9]\\d*$",
+        "message": "數字不能以 0 開頭"
+      }
+    },
+    "double_input_number": {
+      "type": "number",
+      "register_name": "double_number",
+      "default_label": "雙欄位",
+      "fields": [
+        {
+          "type": "number",
+          "register_name": "欄位1",
+          "default_label": "請輸入欄位",
+          "default_placeholder": 0,
+          "min": { "value": 1, "message": "需大於或等於 1" },
+          "max": { "value": 500, "message": "需小於或等於 500" }
+        },
+        {
+          "type": "number",
+          "register_name": "欄位2",
+          "default_label": "請輸入欄位",
+          "default_placeholder": 0,
+          "min": { "value": 1, "message": "需大於或等於 1" },
+          "max": { "value": 500, "message": "需小於或等於 500" }
+        }
+      ]
+    },
+    "quadruple_input_number": {
+      "type": "number",
+      "register_name": "quadruple_number",
+      "default_label": "四欄位",
+      "fields": [
+        {
+          "type": "number",
+          "register_name": "欄位1",
+          "default_label": "請輸入欄位",
+          "default_placeholder": 0,
+          "max": 10
+        },
+        {
+          "type": "number",
+          "register_name": "欄位2",
+          "default_label": "請輸入欄位",
+          "default_placeholder": 0,
+          "max": 10
+        },
+        {
+          "type": "number",
+          "register_name": "欄位3",
+          "default_label": "請輸入欄位",
+          "default_placeholder": 0,
+          "max": 10
+        },
+        {
+          "type": "number",
+          "register_name": "欄位4",
+          "default_label": "請輸入欄位",
+          "default_placeholder": 0,
+          "max": 10
+        }
+      ]
+    }
+  },
+  "form_fields": {
+    "1": {
+      "title": "Image",
+      "fields": [
+        {
+          "id": 1,
+          "type": "static_image",
+          "label": "上傳說明圖"
+        }
+      ]
+    },
+    "2": {
+      "title": "ImageWithNavTab",
+      "fields": [
+        {
+          "id": 1,
+          "type": "static_image",
+          "label": "上傳說明圖"
+        },
+        {
+          "id": 2,
+          "type": "input_number",
+          "label": "對應TabId",
+          "register_name": "tabId",
+          "placeholder": 1
+        },
+        {
+          "id": 3,
+          "type": "static_image",
+          "label": "上傳Tab按鈕圖"
+        },
+        {
+          "id": 4,
+          "type": "quadruple_input_number",
+          "label": "Tab按鈕位置",
+          "register_name": "tabButtonPosition",
+          "placeholder": 0
+        },
+        {
+          "id": 5,
+          "type": "double_input_number",
+          "label": "Tab按鈕長寬",
+          "register_name": "tabButtonSize",
+          "placeholder": 100
+        }
+      ]
+    },
+    "3": {
+      "title": "ImageWithCollapseModal",
+      "fields": [
+        {
+          "id": 1,
+          "type": "static_image",
+          "label": "上傳說明圖"
+        },
+        {
+          "id": 2,
+          "type": "input_number",
+          "label": "收起高度",
+          "register_name": "collapseHeight",
+          "placeholder": 1
+        },
+        {
+          "id": 3,
+          "type": "input_text",
+          "label": "彈窗標題",
+          "register_name": "collapseTitle",
+          "placeholder": "機率彈窗"
+        },
+        {
+          "id": 4,
+          "type": "input_text",
+          "label": "彈窗背景",
+          "register_name": "modalBackground",
+          "placeholder": "#fff"
+        },
+        {
+          "id": 5,
+          "type": "static_image",
+          "label": "上傳機率彈窗內文圖"
+        },
+        {
+          "id": 6,
+          "type": "quadruple_input_number",
+          "label": "機率按鈕位置",
+          "register_name": "modalBtnPosition",
+          "placeholder": 0
+        },
+        {
+          "id": 7,
+          "type": "double_input_number",
+          "label": "機率按鈕長寬",
+          "register_name": "modalBtnSize",
+          "placeholder": 100
+        }
+      ]
+    },
+    "4": {
+      "title": "FloatImages",
+      "fields": [
+        {
+          "id": 1,
+          "type": "static_image",
+          "label": "上傳動態圖"
+        },
+        {
+          "id": 2,
+          "type": "quadruple_input_number",
+          "label": "動態圖位置",
+          "register_name": "floatImagesPosition",
+          "placeholder": 0
+        },
+        {
+          "id": 3,
+          "type": "double_input_number",
+          "label": "動態圖長寬",
+          "register_name": "floatImagesSize",
+          "placeholder": 100
+        }
+      ]
+    },
+    "5": {
+      "title": "Terms",
+      "fields": [
+        {
+          "id": 1,
+          "type": "input_text",
+          "label": "條款文字顏色",
+          "register_name": "termsTextColor",
+          "placeholder": "#000"
+        },
+        {
+          "id": 2,
+          "type": "input_text",
+          "label": "條款背景顏色",
+          "register_name": "termsBackgroundColor",
+          "placeholder": "#fff"
+        }
+      ]
+    }
+  }
+}
