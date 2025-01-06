@@ -22,6 +22,13 @@
       "max_length": 10,
       "required": true
     },
+    "input_text_color": {
+      "type": "color",
+      "register_name": "color",
+      "default_label": "請輸入顏色",
+      "default_placeholder": "#000",
+      "required": true
+    },
     "input_number": {
       "type": "number",
       "register_name": "number",
@@ -167,7 +174,7 @@
         },
         {
           "id": 4,
-          "type": "input_text",
+          "type": "input_text_color",
           "label": "彈窗背景",
           "register_name": "modalBackground",
           "placeholder": "#fff"

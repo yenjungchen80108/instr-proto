@@ -7,11 +7,14 @@ const useImageUploader = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setUploadedImage(reader.result); // Convert file to base64 URL for preview
+        setUploadedImage({
+          previewUrl: reader.result, // Base64 URL
+          fileName: file.name, // 文件名
+        });
       };
       reader.readAsDataURL(file);
     } else {
-      setUploadedImage(null); // Clear image if validation failed
+      setUploadedImage(null);
     }
   };
 

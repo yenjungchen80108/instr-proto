@@ -20,13 +20,13 @@ const StaticImage = ({ className, label }) => {
       <h3>{label || staticImage.label}</h3>
       <SingleImageUploader
         onChange={handleImageChange}
-        maxFileSize={2 * 1024 * 1024}
+        maxFileSize={1 * 1024 * 1024}
       />
       {uploadedImage && (
         <img
-          src={uploadedImage}
+          src={uploadedImage.previewUrl}
           alt="Uploaded"
-          style={{ height: "100px", width: "100px" }}
+          style={{ height: "auto", width: "100%" }}
         />
       )}
     </div>

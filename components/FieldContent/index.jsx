@@ -12,6 +12,7 @@ const FieldContent = ({ className = "", fieldData }) => {
     instrConfig: {
       instrFieldType: {
         inputText,
+        inputTextColor,
         inputNumber,
         doubleInputNumber,
         quadrupleInputNumber,
@@ -29,6 +30,8 @@ const FieldContent = ({ className = "", fieldData }) => {
         return <Input key={index} {...content} {...inputNumber} />;
       case "input_text":
         return <Input key={index} {...content} {...inputText} />;
+      case "input_text_color":
+        return <Input key={index} {...content} {...inputTextColor} />;
       case "double_input_number":
         return <GroupedInput key={index} {...content} {...doubleInputNumber} />;
       case "quadruple_input_number":

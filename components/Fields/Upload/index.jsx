@@ -1,4 +1,6 @@
 import React, { useState, useRef } from "react";
+import { StyledInputContainer } from "../styles";
+import styled from "styled-components";
 
 const SingerImageUploader = ({
   className,
@@ -31,27 +33,36 @@ const SingerImageUploader = ({
       setError(null);
       onChange(file);
     }
-
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
   };
 
   return (
-    <div className={className}>
-      <input
-        type="file"
-        accept={acceptType.join(",")}
-        onChange={handleChange}
-        ref={inputRef}
-      />
-      <button onClick={() => inputRef.current && inputRef.current.click()}>
-        Upload
-      </button>
-      <button onClick={() => onChange(null)}>remove</button>
-      {error && <div className="error">{error || "※請檢查欄位"}</div>}
-    </div>
+    <StyledInputContainer className={className}>
+      <div className="upload-block">
+        <input
+          type="file"
+          accept={acceptType.join(",")}
+          onChange={handleChange}
+          ref={inputRef}
+        />
+        <button onClick={() => inputRef.current && inputRef.current.click()}>
+          Upload
+        </button>
+        <button onClick={() => onChange(null)}>remove</button>
+      </div>
+      {error && (
+        <div className="input-desc">
+          <div className="input-alert">{error || "※請檢查欄位"}</div>
+        </div>
+      )}
+    </StyledInputContainer>
   );
 };
 
-export default SingerImageUploader;
+export default styled(SingerImageUploader)`
+  .upload-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+`;

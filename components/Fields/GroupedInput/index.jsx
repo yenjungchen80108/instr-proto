@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { StyledGroupedInput } from "./styles";
+import { StyledInputContainer } from "../styles";
 // import { integerValidation } from "@/utils/formValidation";
 
 const GroupedInput = ({
@@ -19,7 +20,7 @@ const GroupedInput = ({
   const fieldError = formState.errors[registerName];
 
   return (
-    <div className={className}>
+    <StyledInputContainer className={className}>
       <h3>
         {label || defaultLabel}{" "}
         {required && <span className="need-mark">*</span>}
@@ -48,7 +49,7 @@ const GroupedInput = ({
           </div>
         )}
       </StyledGroupedInput>
-    </div>
+    </StyledInputContainer>
   );
 };
 

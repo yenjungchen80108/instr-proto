@@ -1,13 +1,6 @@
 import styled from "styled-components";
 
 export const StyledGroupedInput = styled.div`
-  --field-border-color: #b3b3b3;
-  --box-background-color: rgba(255, 255, 255, 0.1);
-  --placeholder-text-color: rgba(0, 0, 0, 0.4);
-  --disabled-text-color: rgba(255, 255, 255, 0.5);
-  --text-color: #000;
-  --hint-color: #fd6969;
-
   display: flex;
   align-items: center;
   flex-wrap: wrap;
