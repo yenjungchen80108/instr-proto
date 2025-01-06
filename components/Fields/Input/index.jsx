@@ -103,7 +103,7 @@ const Input = (props) => {
         {fieldError && (
           <div className="input-desc">
             <div className="input-alert">
-              {fieldError?.message || "※請檢查欄位"}
+              {fieldError?.message || fieldError?.type || "※請檢查欄位"}
             </div>
           </div>
         )}

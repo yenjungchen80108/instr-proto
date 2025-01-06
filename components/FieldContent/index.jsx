@@ -26,23 +26,9 @@ const FieldContent = ({ className = "", fieldData }) => {
       case "static_image":
         return <StaticImage key={index} {...content} />;
       case "input_number":
-        return (
-          <Input
-            key={index}
-            label={content.label}
-            {...content}
-            {...inputNumber}
-          />
-        );
+        return <Input key={index} {...content} {...inputNumber} />;
       case "input_text":
-        return (
-          <Input
-            key={index}
-            label={content.label}
-            {...content}
-            {...inputText}
-          />
-        );
+        return <Input key={index} {...content} {...inputText} />;
       case "double_input_number":
         return <GroupedInput key={index} {...content} {...doubleInputNumber} />;
       case "quadruple_input_number":

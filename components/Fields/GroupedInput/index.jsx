@@ -11,26 +11,42 @@ const GroupedInput = ({
   label,
   validate,
   placeholder,
+  required,
+  defaultLabel,
 }) => {
-  const { register } = useFormContext();
+  const formContext = useFormContext();
+  const { register, formState } = formContext;
+  const fieldError = formState.errors[registerName];
 
   return (
     <div className={className}>
-      <h3>{label}</h3>
+      <h3>
+        {label || defaultLabel}{" "}
+        {required && <span className="need-mark">*</span>}
+      </h3>
       <StyledGroupedInput>
         {fields.map((field, index) => (
-          <input
-            key={index}
-            type={type}
-            placeholder={placeholder || field.defaultPlaceholder}
-            {...register(`${registerName}.${field.registerName}`, {
-              required: true,
-              validate: {
-                ...validate,
-              },
-            })}
-          />
+          <div key={index} className="input-item">
+            <span>{field.label || field.defaultLabel} </span>
+            <input
+              type={type}
+              placeholder={placeholder || field.defaultPlaceholder}
+              {...register(`${registerName}.${field.registerName}`, {
+                required: true,
+                validate: {
+                  ...validate,
+                },
+              })}
+            />
+          </div>
         ))}
+        {fieldError && (
+          <div className="input-desc">
+            <div className="input-alert">
+              {fieldError?.message || fieldError?.type || "※請檢查欄位"}
+            </div>
+          </div>
+        )}
       </StyledGroupedInput>
     </div>
   );
