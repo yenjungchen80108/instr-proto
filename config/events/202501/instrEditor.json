@@ -229,14 +229,14 @@
       "fields": [
         {
           "id": 1,
-          "type": "input_text",
+          "type": "input_text_color",
           "label": "條款文字顏色",
           "register_name": "termsTextColor",
           "placeholder": "#000"
         },
         {
           "id": 2,
-          "type": "input_text",
+          "type": "input_text_color",
           "label": "條款背景顏色",
           "register_name": "termsBackgroundColor",
           "placeholder": "#fff"
