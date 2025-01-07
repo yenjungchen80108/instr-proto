@@ -1,21 +1,26 @@
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-import prettierConfigRecommended from "eslint-plugin-prettier/recommended";
+import pluginNext from "@next/eslint-plugin-next";
+import parser from "@typescript-eslint/parser";
 
-const compat = new FlatCompat({
-  // import.meta.dirname is available after Node.js v20.11.0
-  baseDirectory: import.meta.dirname,
-  recommendedConfig: js.configs.recommended,
-});
-
-const eslintConfig = [
-  ...compat.config({
-    extends: ["eslint:recommended"],
-  }),
-  prettierConfigRecommended,
+export default [
   {
-    files: ["**/*.js", "**/*.jsx"], // 針對文件類型
+    name: "ESLint Config - nextjs",
+    languageOptions: {
+      parser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    plugins: {
+      "@next/next": pluginNext,
+    },
+    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
+    rules: {
+      ...pluginNext.configs.recommended.rules,
+      ...pluginNext.configs["core-web-vitals"].rules,
+    },
   },
 ];
-
-export default eslintConfig;
