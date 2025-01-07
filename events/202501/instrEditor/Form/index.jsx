@@ -13,6 +13,7 @@ import FloatImages from "../components/FloatImages";
 import Terms from "../components/Terms";
 
 import { FIELD_TYPE } from "../constant";
+import { StyledFormBlock, StyledBtn, StyledSaveBtn } from "./styles";
 
 const formComponents = {
   [FIELD_TYPE?.STATIC_IMAGE]: SingleStaticImage,
@@ -31,8 +32,32 @@ const Form = ({ className, onSubmit = () => null }) => {
     instrConfig: { formFields },
   } = useSelector(instrConfigSelector);
 
-  const [selectedFormId, setSelectedFormId] = useState("");
-  const SelectedComponent = formComponents[selectedFormId];
+  // const [selectedFormId, setSelectedFormId] = useState("");
+  // const SelectedComponent = formComponents[selectedFormId];
+  const [dropdowns, setDropdowns] = useState([
+    { id: 1, selectedFormId: "" }, // init first dropdown
+  ]);
+
+  const addDropdown = () => {
+    setDropdowns((prev) => [
+      ...prev,
+      { id: prev.length + 1, selectedFormId: "" },
+    ]);
+  };
+
+  const removeDropdown = (id) => {
+    setDropdowns((prev) => prev.filter((dropdown) => dropdown.id !== id));
+  };
+
+  const handleSelect = (id, selectedValue) => {
+    setDropdowns((prev) =>
+      prev.map((dropdown) =>
+        dropdown.id === id
+          ? { ...dropdown, selectedFormId: selectedValue }
+          : dropdown
+      )
+    );
+  };
 
   return (
     <FormProvider {...methods}>
@@ -41,17 +66,61 @@ const Form = ({ className, onSubmit = () => null }) => {
         onSubmit={methods?.handleSubmit(onSubmit)}
         // autoComplete="off"
       >
-        <Dropdown formFields={formFields} onSelect={setSelectedFormId} />
+        {/* <Dropdown
+          formFields={formFields}
+          onSelect={setSelectedFormId}
+          mb="6px"
+        />
         {SelectedComponent ? (
-          <SelectedComponent mb={4} />
+          <SelectedComponent />
         ) : (
-          <p>未選擇說明頁類型</p>
-        )}
+          <div>未選擇說明頁類型</div>
+        )} */}
+        {dropdowns?.map((dropdown) => {
+          const SelectedComponent = formComponents[dropdown?.selectedFormId];
+          return (
+            <StyledFormBlock key={dropdown.id}>
+              <div>
+                {/* 下拉菜单 */}
+                <Dropdown
+                  formFields={formFields}
+                  onSelect={(selectedFormId) =>
+                    handleSelect(dropdown.id, selectedFormId)
+                  }
+                  mb="6px"
+                />
+                {SelectedComponent ? (
+                  <SelectedComponent />
+                ) : (
+                  <div>未選擇說明頁類型</div>
+                )}
+                {/* 移除按钮 */}
+                <StyledBtn
+                  type="button"
+                  onClick={() => removeDropdown(dropdown.id)}
+                  my="10px"
+                >
+                  -
+                </StyledBtn>
+              </div>
+              <hr className="horizontal-line" />
+            </StyledFormBlock>
+          );
+        })}
+
+        {/* 添加按钮 */}
+        <StyledBtn type="button" onClick={addDropdown}>
+          +
+        </StyledBtn>
+        {/* 提交按钮 */}
+        <StyledSaveBtn type="submit" style={{ marginTop: "10px" }}>
+          Save
+        </StyledSaveBtn>
       </form>
     </FormProvider>
   );
 };
 
 export default styled(Form)`
-  padding: 8px;
+  padding: 10px 8px;
 `;
