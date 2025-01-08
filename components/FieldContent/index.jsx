@@ -11,6 +11,7 @@ const FieldContent = ({ className = "", fieldData }) => {
   const {
     instrConfig: {
       instrFieldType: {
+        staticImage,
         inputText,
         inputTextColor,
         inputNumber,
@@ -25,7 +26,7 @@ const FieldContent = ({ className = "", fieldData }) => {
 
     switch (content.type) {
       case "static_image":
-        return <StaticImage key={index} {...content} />;
+        return <StaticImage key={index} {...content} {...staticImage} />;
       case "input_number":
         return <Input key={index} {...content} {...inputNumber} />;
       case "input_text":

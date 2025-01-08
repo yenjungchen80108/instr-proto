@@ -12,7 +12,8 @@
     "static_image": {
       "type": "single_static_image",
       "register_name": "static_image",
-      "label": "上傳說明圖"
+      "label": "上傳說明圖",
+      "required": true
     },
     "input_text": {
       "type": "text",

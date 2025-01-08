@@ -76,10 +76,10 @@ const Form = ({ className, onSubmit = () => null }) => {
         ) : (
           <div>未選擇說明頁類型</div>
         )} */}
-        {dropdowns?.map((dropdown) => {
+        {dropdowns?.map((dropdown, index) => {
           const SelectedComponent = formComponents[dropdown?.selectedFormId];
           return (
-            <StyledFormBlock key={dropdown.id}>
+            <StyledFormBlock key={index}>
               <div>
                 {/* 下拉菜单 */}
                 <Dropdown

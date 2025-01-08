@@ -5,7 +5,7 @@ export const StyledFormBlock = styled.div`
   margin-bottom: 10px;
 
   .horizontal-line {
-    border: 1px dashed #d1d1d1;
+    border: 1px dashed #e9e9e9;
     margin: 5px 0;
   }
 `;

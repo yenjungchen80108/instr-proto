@@ -8,7 +8,7 @@ import useImageUploader from "@/hooks/useImageUploader";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
 import { space } from "styled-system";
 
-const StaticImage = ({ className, label }) => {
+const StaticImage = ({ className, label, registerName, required }) => {
   const { uploadedImage, handleImageChange } = useImageUploader();
   const {
     instrConfig: {

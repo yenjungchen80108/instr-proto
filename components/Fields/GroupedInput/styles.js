@@ -12,7 +12,7 @@ export const StyledGroupedInput = styled.div`
     height: 20px;
     border-radius: 5px;
     border: solid 1px var(--field-border-color);
-    background-color: #eee;
+    background-color: #fff;
     color: var(--text-color);
 
     -webkit-user-select: text;
