@@ -14,6 +14,7 @@ const renderContentType = (content, index) => {
     case "terms": {
       return <Terms className="terms" key={index} {...props} />;
     }
+
     default:
       return null;
   }

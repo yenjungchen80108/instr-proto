@@ -44,7 +44,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       configData = await fetchConfigInfo({
         configUrl: "/config/events/202501/instrEditor.json",
       });
-      console.log({ configData });
+      // console.log({ configData });
       store.dispatch(setInstrConfig({ instrConfig: configData }));
     } catch (err) {
       console.log("error", err);

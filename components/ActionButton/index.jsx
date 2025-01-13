@@ -13,8 +13,6 @@ import {
   letterSpacing,
 } from "styled-system";
 
-import { smallText } from "@/styles/mixin";
-
 const ActionButton = forwardRef(({ asChild, children, ...props }, ref) => {
   const { className, onClick, disabled, ...actionData } = props;
 
@@ -69,12 +67,5 @@ export default styled(ActionButton)`
   .countdown-wrapper {
     position: relative;
     left: -25%;
-  }
-
-  .countdown {
-    ${smallText(8)};
-    text-align: center;
-    white-space: pre-wrap;
-    transform-origin: left center;
   }
 `;

@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
 import { actConfigSelector } from "./store/selector";
 import * as Tabs from "@radix-ui/react-tabs";
+import Tab4 from "./panels/Tab4";
 
 const page = () => {
   const {
@@ -39,7 +40,7 @@ const page = () => {
               test3
             </Tabs.Content>
             <Tabs.Content className="TabsContent" value="instr">
-              instruction
+              <Tab4 />
             </Tabs.Content>
           </Tabs.Root>
         </StyledContent>

@@ -1,6 +1,7 @@
 import { StyledCustomImage } from "../styles";
 import ActionButton from "../../ActionButton";
 import styled from "styled-components";
+import { background, color, typography, layout } from "styled-system";
 
 const BasicActionButton = ({
   className,
@@ -23,11 +24,16 @@ export default styled(BasicActionButton)`
   flex-direction: column;
   position: absolute;
   z-index: 2;
-  width: ${({ width }) => (width ? width : "auto")};
-  height: ${({ height }) => (height ? height : "auto")};
+  width: ${({ width }) => (width ? `${width}px` : "auto")};
+  height: ${({ height }) => (height ? `${height}px` : "auto")};
+  top: ${({ top }) => (top ? `${top}px` : "auto")};
+  right: ${({ right }) => (right ? `${right}px` : "auto")};
+  left: ${({ left }) => (left ? `${left}px` : "auto")};
+  bottom: ${({ bottom }) => (bottom ? `${bottom}px` : "auto")};
   ${background};
   ${color};
   ${typography};
+  ${layout};
 
   .action-btn-img {
     object-fit: contain;

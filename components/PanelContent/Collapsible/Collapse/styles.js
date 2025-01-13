@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-export const StyledCollapse = styled.div`
+export const StyledCollapse = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "startCollapsedSize", // 过滤掉 buttonStyle
+})`
   overflow: hidden;
   * {
     box-sizing: border-box;

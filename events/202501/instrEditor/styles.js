@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import "@radix-ui/colors/slate.css";
 
 export const StyledContainer = styled.div`
   min-height: 100vh;
@@ -15,5 +16,5 @@ export const StyledContent = styled.div`
   position: relative;
   background: #fff;
   color: #000;
-  background: #fff;
+  background-color: var(--slate-3);
 `;

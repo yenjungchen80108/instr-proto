@@ -25,7 +25,7 @@
       "panel_data": [
         {
           "collapsible": {
-            "min-height": 585,
+            "min-height": 200,
             "offset": 0
           },
           "container_props": {
@@ -44,10 +44,9 @@
                 "display": "none"
               },
               "style": {
-                "right": 30,
-                "top": 2280,
-                "width": 70,
-
+                "right": 20,
+                "top": 440,
+                "width": 100,
                 "display": "block"
               },
               "title_image": "/assets/images/202501/act/instr/detail_btn.png"
@@ -138,7 +137,8 @@
             "class_name": "terms-text-list"
           },
           "props": {
-            "color": "#794A1F"
+            "color": "#bbb",
+            "background": "#e7e7e7"
           },
           "type": "terms"
         }

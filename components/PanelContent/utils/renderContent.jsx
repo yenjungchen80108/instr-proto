@@ -1,6 +1,6 @@
 import cx from "classnames";
 
-import { createScrollService } from "@/utils/scrollIntoView";
+import { createScrollService } from "../utils/scrollIntoView";
 
 import Collapsible from "../Collapsible";
 import { StyledPanelDetail } from "../styles";
@@ -102,6 +102,7 @@ const renderContent = ({
         renderPanelDetail={({ open }) => {
           if (!shouldRenderPanelDetail) return null;
           if (!open && !content?.modal?.detailButton?.closeStyle) return null;
+
           return (
             <StyledPanelDetail
               onClick={handleDetailClick({

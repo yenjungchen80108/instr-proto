@@ -1,9 +1,9 @@
-import Styled from "styled-components";
-import { color, space } from "styled-system";
+import styled from "styled-components";
+import { color, space, background } from "styled-system";
 
-const Terms = ({ className }) => {
-  <div className={className}>
-    <p>
+const Terms = ({ className, ...props }) => {
+  return (
+    <div className={className}>
       Fusce rhoncus diam ac rutrum dignissim. In sagittis ante sed velit
       venenatis, sed maximus libero lacinia. Maecenas consectetur semper lectus,
       in tempor erat laoreet et. Mauris suscipit dolor ligula, et cursus lacus
@@ -17,12 +17,14 @@ const Terms = ({ className }) => {
       convallis viverra. Nunc quam massa, mollis id augue quis, fringilla
       condimentum erat. Sed sit amet nisi tempus, convallis orci a, ornare
       justo.
-    </p>
-  </div>;
+    </div>
+  );
 };
 
-export default Styled(Terms)`
-line-height: 1.5;
-${color}
-${space}
+export default styled(Terms)`
+  line-height: 1.5;
+  padding: 10px;
+  ${color};
+  ${space};
+  ${background};
 `;

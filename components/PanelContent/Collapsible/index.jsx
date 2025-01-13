@@ -39,7 +39,7 @@ const Collapsible = ({
 
   return (
     <PanelCollapsible
-      detailButtonStyle={modalConfig?.detailButton?.style}
+      // detailButtonStyle={modalConfig?.detailButton?.style}
       className={cx("panel-collapsible", className)}
       offset={offset}
       open={isOpen}

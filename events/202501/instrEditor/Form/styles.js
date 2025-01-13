@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { space } from "styled-system";
+import "@radix-ui/colors/slate.css";
 
 export const StyledFormBlock = styled.div`
   margin-bottom: 10px;
 
   .horizontal-line {
-    border: 1px dashed #e9e9e9;
+    border: 1px dashed var(--slate-6);
     margin: 5px 0;
   }
 `;

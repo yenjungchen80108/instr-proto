@@ -1,8 +1,10 @@
-const renderDefaultPanelDetail = ({ title, titleImage }) => {
+import { StyledCustomImage } from "../styles";
+
+const renderDefaultPanelDetail = ({ title, titleImage, ...props }) => {
   if (titleImage) {
     return (
       <div className="panel-detail-button">
-        <StyledCustomImage src={titleImage} alt="" />
+        <StyledCustomImage src={titleImage} alt="" {...props.styles} />
       </div>
     );
   }

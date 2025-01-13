@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { color, typography, space, border, background } from "styled-system";
 
-import { borderRadius, px2Unit } from "@/styles/mixin";
+import { px2Unit } from "@/styles/mixin";
 
 const SeeMore = ({ className, open, onToggle }) => {
   const seeMoreTitle = open ? "點擊收合" : "查看更多";
@@ -26,7 +26,7 @@ export default styled(SeeMore)`
     margin: 0 auto;
     font-size: ${px2Unit(14)};
     padding: ${px2Unit(5)} ${px2Unit(15)};
-    ${borderRadius(5)};
+    border-radius: 5px;
     ${color}
     ${space}
     ${typography}
