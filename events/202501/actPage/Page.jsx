@@ -1,4 +1,4 @@
-// import Form from "./Form";
+import React from "react";
 import { StyledContainer, StyledContent } from "./styles";
 import { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
@@ -6,7 +6,14 @@ import { actConfigSelector } from "./store/selector";
 import * as Tabs from "@radix-ui/react-tabs";
 import Tab4 from "./panels/Tab4";
 
-const page = () => {
+const tabConfig = [
+  { label: "Act1", value: "tab1", content: "test1" },
+  { label: "Act2", value: "tab2", content: "test2" },
+  { label: "Act3", value: "tab3", content: "test3" },
+  { label: "Instruction", value: "instr", content: <Tab4 /> },
+];
+
+const Page = ({ isEditMode }) => {
   const {
     actConfig: { styles },
   } = useSelector(actConfigSelector);
@@ -17,31 +24,27 @@ const page = () => {
         <StyledContent>
           <Tabs.Root className="TabsRoot" defaultValue="tab1">
             <Tabs.List className="TabsList" aria-label="">
-              <Tabs.Trigger className="TabsTrigger" value="tab1">
-                Act1
-              </Tabs.Trigger>
-              <Tabs.Trigger className="TabsTrigger" value="tab2">
-                Act2
-              </Tabs.Trigger>
-              <Tabs.Trigger className="TabsTrigger" value="tab3">
-                Act3
-              </Tabs.Trigger>
-              <Tabs.Trigger className="TabsTrigger" value="instr">
-                Instruction
-              </Tabs.Trigger>
+              {tabConfig.map((tab) => (
+                <Tabs.Trigger
+                  key={tab.value}
+                  className="TabsTrigger"
+                  value={tab.value}
+                >
+                  {tab.label}
+                </Tabs.Trigger>
+              ))}
             </Tabs.List>
-            <Tabs.Content className="TabsContent" value="tab1">
-              test1
-            </Tabs.Content>
-            <Tabs.Content className="TabsContent" value="tab2">
-              test2
-            </Tabs.Content>
-            <Tabs.Content className="TabsContent" value="tab3">
-              test3
-            </Tabs.Content>
-            <Tabs.Content className="TabsContent" value="instr">
-              <Tab4 />
-            </Tabs.Content>
+            {tabConfig.map((tab) => (
+              <Tabs.Content
+                key={tab.value}
+                className="TabsContent"
+                value={tab.value}
+              >
+                {tab.value === "instr"
+                  ? React.cloneElement(tab.content, { isEditMode })
+                  : tab.content}
+              </Tabs.Content>
+            ))}
           </Tabs.Root>
         </StyledContent>
       </StyledContainer>
@@ -49,4 +52,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

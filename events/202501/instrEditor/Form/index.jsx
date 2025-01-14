@@ -113,7 +113,10 @@ const Form = ({ className, onSubmit = () => null }) => {
           +
         </StyledBtn>
         {/* 提交按钮 */}
-        <StyledSaveBtn type="submit" style={{ marginTop: "10px" }}>
+        <StyledSaveBtn
+          type="submit"
+          style={{ marginTop: "10px", padding: "15px 20px" }}
+        >
           Save
         </StyledSaveBtn>
       </form>

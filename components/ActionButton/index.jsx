@@ -43,6 +43,20 @@ const ActionButton = forwardRef(({ asChild, children, ...props }, ref) => {
 ActionButton.displayName = "ActionButton";
 
 export default styled(ActionButton)`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .btn-text {
+    font-size: 14px;
+    font-weight: 500;
+    background: #fff;
+    color: #000;
+    padding: 10px 20px;
+    margin: 5px 5px 0;
+    border-radius: 10px;
+  }
+
   cursor: pointer;
   user-select: none;
   ${layout}

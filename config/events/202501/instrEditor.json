@@ -163,7 +163,7 @@
           "id": 2,
           "type": "input_number",
           "label": "收起高度",
-          "register_name": "collapseHeight",
+          "register_name": "min-height",
           "placeholder": 1
         },
         {

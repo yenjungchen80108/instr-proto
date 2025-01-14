@@ -1,5 +1,5 @@
 import Head from "next/head";
-
+import { useRouter } from "next/router";
 import Page from "@/events/202501/actPage/Page";
 import withEventReducer from "@/hoc/withEventReducer";
 import { wrapper } from "@/store/rootStore";
@@ -8,9 +8,14 @@ import { setActConfig } from "@/events/202501/actPage/store/config/slice";
 import reducer from "@/events/202501/actPage/store";
 
 import { fetchConfigInfo } from "@/apis/fetchConfig";
+import { deepMerge } from "@/utils/mergeJson";
 
 const IndexPage = ({ configData }) => {
   const { title, description, keywords } = configData.metaData;
+
+  const router = useRouter();
+  const { tabs } = router.query;
+  const isEditMode = tabs?.includes("edit");
 
   return (
     <>
@@ -20,7 +25,7 @@ const IndexPage = ({ configData }) => {
         <meta name="keywords" content={keywords} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Page />
+      <Page isEditMode={isEditMode} />
     </>
   );
 };
@@ -34,18 +39,27 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     const { res } = context;
 
-    let configData = {};
+    let actConfigData = {};
+    let actInstrConfigData = {};
+    let combinedConfig = {};
 
     try {
       res.setHeader(
         "Cache-Control",
         `public, s-maxage=30, stale-while-revalidate=59`
       );
-      configData = await fetchConfigInfo({
+
+      actConfigData = await fetchConfigInfo({
         configUrl: "/config/events/202501/actPage.json",
       });
-      // console.log({ configData });
-      store.dispatch(setActConfig({ actConfig: configData }));
+      actInstrConfigData = await fetchConfigInfo({
+        configUrl: "/config/events/202501/actInstrPage.json",
+      });
+
+      combinedConfig = deepMerge(actConfigData, actInstrConfigData);
+
+      console.log({ combinedConfig });
+      store.dispatch(setActConfig({ actConfig: combinedConfig }));
     } catch (err) {
       console.log("error", err);
       return {
@@ -56,7 +70,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        configData,
+        configData: combinedConfig,
       },
     };
   }
