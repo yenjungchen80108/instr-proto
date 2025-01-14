@@ -2,6 +2,7 @@ import { StyledCustomImage } from "../styles";
 import ActionButton from "../../ActionButton";
 import styled from "styled-components";
 import { background, color, typography, layout } from "styled-system";
+import { withS3Host } from "@/utils/imageHost";
 
 const BasicActionButton = ({
   className,
@@ -12,7 +13,10 @@ const BasicActionButton = ({
   <ActionButton className={className} onClick={onActionButtonClick}>
     {title && <div className="action-title">{title}</div>}
     {titleImage && (
-      <StyledCustomImage className="action-btn-img" src={titleImage} />
+      <StyledCustomImage
+        className="action-btn-img"
+        src={withS3Host(titleImage)}
+      />
     )}
   </ActionButton>
 );

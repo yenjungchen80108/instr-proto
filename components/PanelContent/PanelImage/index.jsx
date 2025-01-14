@@ -3,7 +3,7 @@ import cx from "classnames";
 import styled from "styled-components";
 import { color, space } from "styled-system";
 
-// import { withS3Host } from '@/utils/host'
+import { withS3Host } from "@/utils/imageHost";
 
 const PanelImage = ({ className, src, ...props }) => {
   const wrapperClassName = cx("panel-content-img", className);
@@ -11,7 +11,7 @@ const PanelImage = ({ className, src, ...props }) => {
     return (
       <ImageContainer className={wrapperClassName} {...props}>
         {src?.map((s, idx) => (
-          <img key={idx} src={s} alt="" />
+          <img key={idx} src={withS3Host(s)} alt="" />
         ))}
       </ImageContainer>
     );
@@ -19,7 +19,7 @@ const PanelImage = ({ className, src, ...props }) => {
 
   return (
     <ImageContainer className={wrapperClassName} {...props}>
-      <img src={src} alt="" />
+      <img src={withS3Host(src)} alt="" />
     </ImageContainer>
   );
 };

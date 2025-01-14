@@ -5,7 +5,7 @@ import { layout } from "styled-system";
 import { createScrollService } from "../utils/scrollIntoView";
 // import { sizeUnit } from '@/styles/mixin'
 import ActionButton from "../../ActionButton";
-// import { withS3Host } from '@/utils/host'
+import { withS3Host } from "@/utils/imageHost";
 
 const GoToDesc = ({
   className,
@@ -21,7 +21,7 @@ const GoToDesc = ({
 
   return (
     <ActionButton className={className} onClick={handleGoToDesc}>
-      <img src={buttonImage} alt="desc" />
+      <img src={withS3Host(buttonImage)} alt="desc" />
     </ActionButton>
   );
 };
