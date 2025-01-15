@@ -4,9 +4,12 @@ import Page from "@/events/202501/instrEditor/Page";
 import withEventReducer from "@/hoc/withEventReducer";
 import { wrapper } from "@/store/rootStore";
 
-import { setInstrConfig } from "@/events/202501/instrEditor/store/config/slice";
+import {
+  setInstrConfig,
+  setActConfig,
+} from "@/events/202501/instrEditor/store/config/slice";
 import reducer from "@/events/202501/instrEditor/store";
-
+import { getJsonFromS3 } from "@/hoc/fetchConfig";
 import { fetchConfigInfo } from "@/apis/fetchConfig";
 
 const IndexPage = ({ configData }) => {
@@ -32,19 +35,30 @@ export default withEventReducer(IndexPage, {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    const { res } = context;
+    const { res, query } = context;
+    const { instrPageId } = query || {};
 
     let configData = {};
+    let actConfig = {};
 
     try {
       res.setHeader(
         "Cache-Control",
         `public, s-maxage=30, stale-while-revalidate=59`
       );
+
+      // set actConfig from s3
+      actConfig = await getJsonFromS3(
+        "instr-bucket",
+        "config/202501/actInstrPage.json"
+      );
+
       configData = await fetchConfigInfo({
         configUrl: "/config/events/202501/instrEditor.json",
       });
-      // console.log({ configData });
+
+      store.dispatch(setActConfig({ actConfig: actConfig }));
+
       store.dispatch(setInstrConfig({ instrConfig: configData }));
     } catch (err) {
       console.log("error", err);
@@ -57,6 +71,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {
         configData,
+        actConfig,
       },
     };
   }

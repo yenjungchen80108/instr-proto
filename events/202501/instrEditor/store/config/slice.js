@@ -3,19 +3,24 @@ import { HYDRATE } from "next-redux-wrapper";
 
 export const initialState = {
   error: null,
-  instrConfig: {},
+  instrConfig: {
+    styles: {
+      backgroundColor: "#ffffff",
+      textColor: "#000000",
+    },
+  },
+  actConfig: {},
 };
 
 const slice = createSlice({
   name: "events/202501/instrEditor/config",
   initialState,
   reducers: {
-    setInstrConfig: (state, { payload }) => {
-      const { instrConfig } = payload;
-
-      return {
-        instrConfig,
-      };
+    setActConfig: (state, action) => {
+      state.actConfig = action.payload.actConfig;
+    },
+    setInstrConfig: (state, action) => {
+      state.instrConfig = action.payload.instrConfig;
     },
   },
   extraReducers: (builder) => {
@@ -28,6 +33,6 @@ const slice = createSlice({
   },
 });
 
-export const { setInstrConfig } = slice.actions;
+export const { setInstrConfig, setActConfig } = slice.actions;
 
 export default slice.reducer;

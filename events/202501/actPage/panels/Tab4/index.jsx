@@ -19,7 +19,12 @@ const Tab4 = ({ className, isEditMode }) => {
   const router = useRouter();
 
   const handleGoToEdit = () => {
-    router.push(`/events/202501/instr`);
+    const instrPageId = 4;
+    // router.push(`/events/202501/instr/instrPageId=${instrPageId}`);
+    router.push({
+      pathname: "/events/202501/instr",
+      query: { instrPageId },
+    });
   };
 
   return (
