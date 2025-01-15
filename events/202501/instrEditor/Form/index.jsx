@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import { FormProvider } from "react-hook-form";
 import styled from "styled-components";
 import Dropdown from "@/components/Fields/DropDown";
@@ -24,13 +25,26 @@ const formComponents = {
 };
 
 const Form = ({ className, onSubmit = () => null }) => {
+  const [defaultFormData, setDefaultFormData] = useState({});
   const methods = useForm({
     mode: "onBlur",
   });
 
   const {
     instrConfig: { formFields },
+    actConfig: { panelsConfig },
   } = useSelector(instrConfigSelector);
+
+  const router = useRouter();
+  const { instrPageId } = router.query;
+
+  useEffect(() => {
+    const defaultFormData = panelsConfig?.[instrPageId] || {};
+
+    if (instrPageId) {
+      setDefaultFormData(defaultFormData);
+    }
+  }, [instrPageId]);
 
   // const [selectedFormId, setSelectedFormId] = useState("");
   // const SelectedComponent = formComponents[selectedFormId];
@@ -98,7 +112,7 @@ const Form = ({ className, onSubmit = () => null }) => {
                 <StyledBtn
                   type="button"
                   onClick={() => removeDropdown(dropdown.id)}
-                  my="10px"
+                  // my="10px"
                 >
                   -
                 </StyledBtn>

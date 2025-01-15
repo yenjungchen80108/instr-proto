@@ -17,7 +17,7 @@ const Dropdown = ({ formFields, onSelect, className }) => {
     <DropdownContainer className={className}>
       <StyledSelect value={selectedId} onChange={handleChange}>
         <StyledOption value="">請選擇說明頁類別</StyledOption>
-        {Object.keys(formFields).map((id) => (
+        {Object.keys(formFields)?.map((id) => (
           <StyledOption key={id} value={id}>
             {formFields[id].title}
           </StyledOption>
