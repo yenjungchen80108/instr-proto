@@ -71,6 +71,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {
         configData: combinedConfig,
+        fileName: "config/events/202501/actPage.json",
+        actInstrConfigData,
       },
     };
   }
