@@ -6,17 +6,17 @@ import { actConfigSelector } from "./store/selector";
 import * as Tabs from "@radix-ui/react-tabs";
 import Tab4 from "./panels/Tab4";
 
-const tabConfig = [
-  { label: "Act1", value: "tab1", content: "test1" },
-  { label: "Act2", value: "tab2", content: "test2" },
-  { label: "Act3", value: "tab3", content: "test3" },
-  { label: "Instruction", value: "instr", content: <Tab4 /> },
-];
-
-const Page = ({ isEditMode }) => {
+const Page = ({ isEditMode, ...props }) => {
   const {
     actConfig: { styles },
   } = useSelector(actConfigSelector);
+
+  const tabConfig = [
+    { label: "Act1", value: "tab1", content: "test1" },
+    { label: "Act2", value: "tab2", content: "test2" },
+    { label: "Act3", value: "tab3", content: "test3" },
+    { label: "Instruction", value: "instr", content: <Tab4 {...props} /> },
+  ];
 
   return (
     <ThemeProvider theme={styles}>

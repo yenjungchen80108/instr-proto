@@ -8,8 +8,9 @@ import ActionButton from "@/components/ActionButton";
 import styled from "styled-components";
 import { space } from "styled-system";
 import { withS3Host } from "@/utils/imageHost";
+import UploadButton from "@/events/202501/actPage/components/UploadButton";
 
-const Tab4 = ({ className, isEditMode }) => {
+const Tab4 = ({ className, isEditMode, fileName, actInstrConfigData }) => {
   const {
     actConfig: { panelsConfig },
   } = useSelector(actConfigSelector);
@@ -34,6 +35,7 @@ const Tab4 = ({ className, isEditMode }) => {
           <div className="btn-text">Edit</div>
         </ActionButton>
       )}
+      <UploadButton fileName={fileName} configData={actInstrConfigData} />
       <PanelContent
         className="panel-content"
         panelData={panelData?.slice(0, 1)}
