@@ -12,9 +12,9 @@ const Page = ({ isEditMode, ...props }) => {
   } = useSelector(actConfigSelector);
 
   const tabConfig = [
-    { label: "Act1", value: "tab1", content: "test1" },
-    { label: "Act2", value: "tab2", content: "test2" },
-    { label: "Act3", value: "tab3", content: "test3" },
+    { label: "Act1", value: "tab1", content: "活動1" },
+    { label: "Act2", value: "tab2", content: "活動2" },
+    { label: "Act3", value: "tab3", content: "活動3" },
     { label: "Instruction", value: "instr", content: <Tab4 {...props} /> },
   ];
 

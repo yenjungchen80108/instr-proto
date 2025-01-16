@@ -127,7 +127,7 @@
           "id": 2,
           "type": "input_number",
           "label": "對應TabId",
-          "register_name": "tabId",
+          "register_name": "actionButton.payload.tabId",
           "placeholder": 1
         },
         {
@@ -163,21 +163,21 @@
           "id": 2,
           "type": "input_number",
           "label": "收起高度",
-          "register_name": "min-height",
+          "register_name": "collapsible.min-height",
           "placeholder": 1
         },
         {
           "id": 3,
           "type": "input_text",
           "label": "彈窗標題",
-          "register_name": "collapseTitle",
+          "register_name": "modal.props.title",
           "placeholder": "機率彈窗"
         },
         {
           "id": 4,
           "type": "input_text_color",
           "label": "彈窗背景",
-          "register_name": "modalBackground",
+          "register_name": "modal.props.background",
           "placeholder": "#fff"
         },
         {
@@ -189,14 +189,14 @@
           "id": 6,
           "type": "quadruple_input_number",
           "label": "機率按鈕位置",
-          "register_name": "modalBtnPosition",
+          "register_name": "modal.detailButton.style.right",
           "placeholder": 0
         },
         {
           "id": 7,
           "type": "double_input_number",
           "label": "機率按鈕長寬",
-          "register_name": "modalBtnSize",
+          "register_name": "modal.detailButton.style.width",
           "placeholder": 100
         }
       ]
@@ -232,14 +232,14 @@
           "id": 1,
           "type": "input_text_color",
           "label": "條款文字顏色",
-          "register_name": "termsTextColor",
+          "register_name": "props.color",
           "placeholder": "#000"
         },
         {
           "id": 2,
           "type": "input_text_color",
           "label": "條款背景顏色",
-          "register_name": "termsBackgroundColor",
+          "register_name": "props.background",
           "placeholder": "#fff"
         }
       ]

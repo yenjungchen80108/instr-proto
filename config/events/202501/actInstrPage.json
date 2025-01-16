@@ -5,7 +5,7 @@
         {
           "id": 3,
           "collapsible": {
-            "min-height": 200,
+            "min-height": 190,
             "offset": 0
           },
           "container_props": {
@@ -34,7 +34,8 @@
                   "type": "image"
                 }
               ],
-              "title": "詳細禮物說明"
+              "title": "詳細禮物說明測試",
+              "background": "#000"
             }
           },
           "props": {
@@ -43,6 +44,7 @@
           "type": "image"
         },
         {
+          "id": 2,
           "action_button": {
             "payload": {
               "tab_id": 1
@@ -64,6 +66,7 @@
           "type": "image"
         },
         {
+          "id": 2,
           "action_button": {
             "payload": {
               "tab_id": 2
@@ -85,6 +88,7 @@
           "type": "image"
         },
         {
+          "id": 2,
           "action_button": {
             "payload": {
               "tab_id": 3
@@ -106,6 +110,7 @@
           "type": "image"
         },
         {
+          "id": 5,
           "container_props": {
             "class_name": "terms-text-list"
           },
