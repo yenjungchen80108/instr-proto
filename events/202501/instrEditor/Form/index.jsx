@@ -13,6 +13,8 @@ import SingleStaticImage from "../components/SingleStaticImage";
 import FloatImages from "../components/FloatImages";
 import Terms from "../components/Terms";
 
+import { convertJsonToFormFields } from "@/hoc/jsonAdapter";
+
 import { FIELD_TYPE } from "../constant";
 import { StyledFormBlock, StyledBtn, StyledSaveBtn } from "./styles";
 
@@ -37,6 +39,8 @@ const Form = ({ className, onSubmit = () => null }) => {
 
   const router = useRouter();
   const { instrPageId } = router.query;
+
+  const currentFormFields = convertJsonToFormFields(panelsConfig, formFields);
 
   useEffect(() => {
     const defaultFormData = panelsConfig?.[instrPageId] || {};
@@ -80,7 +84,7 @@ const Form = ({ className, onSubmit = () => null }) => {
         onSubmit={methods?.handleSubmit(onSubmit)}
         // autoComplete="off"
       >
-        {/* <Dropdown
+        {/* v1 <Dropdown
           formFields={formFields}
           onSelect={setSelectedFormId}
           mb="6px"
@@ -90,12 +94,13 @@ const Form = ({ className, onSubmit = () => null }) => {
         ) : (
           <div>未選擇說明頁類型</div>
         )} */}
-        {dropdowns?.map((dropdown, index) => {
+
+        {/* v2 {dropdowns?.map((dropdown, index) => {
           const SelectedComponent = formComponents[dropdown?.selectedFormId];
+          
           return (
             <StyledFormBlock key={index}>
               <div>
-                {/* 下拉菜单 */}
                 <Dropdown
                   formFields={formFields}
                   onSelect={(selectedFormId) =>
@@ -108,7 +113,38 @@ const Form = ({ className, onSubmit = () => null }) => {
                 ) : (
                   <div>未選擇說明頁類型</div>
                 )}
-                {/* 移除按钮 */}
+                <StyledBtn
+                  type="button"
+                  onClick={() => removeDropdown(dropdown.id)}
+                  // my="10px"
+                >
+                  -
+                </StyledBtn>
+              </div>
+              <hr className="horizontal-line" />
+            </StyledFormBlock>
+          );
+        })} */}
+        {Object.entries(currentFormFields)?.map(([key, dropdown], index) => {
+          const dropDownType = dropdown[key]?.dropType;
+          const SelectedComponent = formComponents[dropDownType];
+          // console.log("SelectedComponent", dropDownType);
+
+          return (
+            <StyledFormBlock key={index}>
+              <div>
+                <Dropdown
+                  formFields={formFields}
+                  onSelect={(selectedFormId) =>
+                    handleSelect(dropdown.id, selectedFormId)
+                  }
+                  mb="6px"
+                />
+                {SelectedComponent ? (
+                  <SelectedComponent />
+                ) : (
+                  <div>未選擇說明頁類型</div>
+                )}
                 <StyledBtn
                   type="button"
                   onClick={() => removeDropdown(dropdown.id)}

@@ -2,7 +2,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { fromIni } from "@aws-sdk/credential-providers";
 
-// 使用 `fromIni` 加载 `personal` Profile
+// 使用 `fromIni` 加载 `personal/default` Profile
 const s3 = new S3Client({
   region: "us-east-1",
   credentials: fromIni({ profile: "personal" }),

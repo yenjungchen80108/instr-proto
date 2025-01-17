@@ -17,4 +17,5 @@ export const StyledContent = styled.div`
   background: #fff;
   color: #000;
   background-color: var(--slate-3);
+  overflow: scroll;
 `;

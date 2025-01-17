@@ -10,7 +10,7 @@ import reducer from "@/events/202501/actPage/store";
 import { fetchConfigInfo } from "@/apis/fetchConfig";
 import { deepMerge } from "@/utils/mergeJson";
 
-const IndexPage = ({ configData }) => {
+const IndexPage = ({ configData, ...props }) => {
   const { title, description, keywords } = configData.metaData;
 
   const router = useRouter();
@@ -25,7 +25,7 @@ const IndexPage = ({ configData }) => {
         <meta name="keywords" content={keywords} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Page isEditMode={isEditMode} />
+      <Page isEditMode={isEditMode} {...props} />
     </>
   );
 };
@@ -71,7 +71,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {
         configData: combinedConfig,
-        fileName: "config/events/202501/actPage.json",
+        fileName: "config/202501/actInstrPage.json",
         actInstrConfigData,
       },
     };
