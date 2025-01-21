@@ -11,13 +11,11 @@
   "instr_field_type": {
     "static_image": {
       "type": "single_static_image",
-      "register_name": "static_image",
       "label": "上傳說明圖",
       "required": true
     },
     "input_text": {
       "type": "text",
-      "register_name": "text",
       "default_label": "請輸入欄位",
       "default_placeholder": "請輸入",
       "max_length": 10,
@@ -25,14 +23,12 @@
     },
     "input_text_color": {
       "type": "color",
-      "register_name": "color",
       "default_label": "請輸入顏色",
       "default_placeholder": "#000",
       "required": true
     },
     "input_number": {
       "type": "number",
-      "register_name": "number",
       "default_label": "請輸入欄位",
       "default_placeholder": 0,
       "min": { "value": 1, "message": "需大於或等於 1" },
@@ -45,7 +41,6 @@
     },
     "double_input_number": {
       "type": "number",
-      "register_name": "double_number",
       "default_label": "雙欄位",
       "required": true,
       "fields": [
@@ -69,7 +64,6 @@
     },
     "quadruple_input_number": {
       "type": "number",
-      "register_name": "quadruple_number",
       "default_label": "四欄位",
       "required": true,
       "fields": [

@@ -25,7 +25,10 @@ const Input = (props) => {
     maxLength,
     pattern,
     validate,
+    defaultValues,
   } = props;
+
+  const defaultValue = defaultValues?.[registerName];
 
   const formContext = useFormContext();
   const { register, formState } = formContext;
@@ -56,6 +59,7 @@ const Input = (props) => {
                 pattern,
                 validate,
               })}
+              defaultValue={defaultValue}
               type={type}
               placeholder={placeholder || defaultPlaceholder}
               disabled={disabled}
@@ -66,6 +70,7 @@ const Input = (props) => {
             <SimpleColorPicker
               {...register(registerName, {})}
               disabled={disabled}
+              defaultValue={defaultValue}
             />
           )}
           {type === "number" && (
@@ -90,6 +95,7 @@ const Input = (props) => {
               placeholder={placeholder}
               disabled={disabled}
               className={classNames("input", { "input-disabled": disabled })}
+              defaultValue={defaultValue}
             />
           )}
           {type === "textarea" && (

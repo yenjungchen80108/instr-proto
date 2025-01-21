@@ -1,16 +1,5 @@
-const groupedData = (data) => {
-  return data.reduce((acc, item) => {
-    const { index } = item;
-    if (!acc[index]) {
-      acc[index] = [];
-    }
-    acc[index].push(item);
-    return acc;
-  }, {});
-};
-
-export const convertJsonToFormFields = (panelsConfig, formFields) => {
-  const result = [];
+export const instrConfigToFormFields = (panelsConfig, formFields) => {
+  const result = {};
 
   for (const panelKey in panelsConfig) {
     const panel = panelsConfig[panelKey];
@@ -31,19 +20,25 @@ export const convertJsonToFormFields = (panelsConfig, formFields) => {
           value = "";
         }
 
-        result.push({
-          index: index + 1,
+        // 根據 index 分組
+        const dropType = data.id;
+        if (!result[index]) {
+          result[index] = {
+            id: index,
+            dropType,
+            fields: [],
+          };
+        }
+
+        result[index].fields.push({
           id: field.id,
-          dropType: data.id,
           type: field.type,
-          registerName: registerName,
+          registerName,
           value,
         });
       });
     });
   }
 
-  const groupedResult = groupedData(result);
-
-  return groupedResult;
+  return Object.values(result);
 };

@@ -14,7 +14,7 @@ export const StyledSelect = styled.select`
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  pointer-events: none;
 
   &:focus {
     border-color: #007bff;
