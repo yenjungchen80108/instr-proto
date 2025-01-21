@@ -8,7 +8,7 @@ import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector"
 import FieldContent from "@/components/FieldContent";
 import { FIELD_TYPE } from "@/events/202501/instrEditor/constant";
 
-const ImageWithCollapseModal = ({ className }) => {
+const ImageWithCollapseModal = ({ className, ...props }) => {
   const {
     instrConfig: { formFields },
   } = useSelector(instrConfigSelector);
@@ -18,7 +18,7 @@ const ImageWithCollapseModal = ({ className }) => {
   return (
     <div className={className}>
       <h2>{fieldData?.title}</h2>
-      <FieldContent fieldData={fieldData} />
+      <FieldContent fieldData={fieldData} fieldValue={props} />
     </div>
   );
 };

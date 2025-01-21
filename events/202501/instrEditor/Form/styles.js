@@ -22,6 +22,7 @@ export const StyledBtn = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  margin-top: 10px;
   ${space};
 `;
 

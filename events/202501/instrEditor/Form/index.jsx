@@ -13,7 +13,7 @@ import SingleStaticImage from "../components/SingleStaticImage";
 import FloatImages from "../components/FloatImages";
 import Terms from "../components/Terms";
 
-import { convertJsonToFormFields } from "@/hoc/jsonAdapter";
+import { instrConfigToFormFields } from "@/hoc/jsonAdapter";
 
 import { FIELD_TYPE } from "../constant";
 import { StyledFormBlock, StyledBtn, StyledSaveBtn } from "./styles";
@@ -27,28 +27,39 @@ const formComponents = {
 };
 
 const Form = ({ className, onSubmit = () => null }) => {
-  const [defaultFormData, setDefaultFormData] = useState({});
-  const methods = useForm({
-    mode: "onBlur",
-  });
-
   const {
     instrConfig: { formFields },
     actConfig: { panelsConfig },
   } = useSelector(instrConfigSelector);
+  const [formData, setFormData] = useState([]);
 
   const router = useRouter();
   const { instrPageId } = router.query;
 
-  const currentFormFields = convertJsonToFormFields(panelsConfig, formFields);
-
   useEffect(() => {
-    const defaultFormData = panelsConfig?.[instrPageId] || {};
+    // const defaultFormData = panelsConfig?.[instrPageId] || {};
+    const currentFormFields =
+      instrConfigToFormFields(panelsConfig, formFields) || [];
 
     if (instrPageId) {
-      setDefaultFormData(defaultFormData);
+      setFormData(currentFormFields);
     }
   }, [instrPageId]);
+
+  const defaultValues = formData.reduce((acc, item) => {
+    // 遍历每个 fields 数组
+    item.fields.forEach((field) => {
+      if (field.registerName) {
+        acc[field.registerName] = String(field.value) || ""; // 设置默认值为 value，或空字符串
+      }
+    });
+    return acc;
+  }, {});
+
+  const methods = useForm({
+    mode: "onBlur",
+    defaultValues,
+  });
 
   // const [selectedFormId, setSelectedFormId] = useState("");
   // const SelectedComponent = formComponents[selectedFormId];
@@ -125,34 +136,32 @@ const Form = ({ className, onSubmit = () => null }) => {
             </StyledFormBlock>
           );
         })} */}
-        {Object.entries(currentFormFields)?.map(([key, dropdown], index) => {
-          const dropDownType = dropdown[key]?.dropType;
+        {formData?.map((data, index) => {
+          const dropDownType = data?.dropType;
           const SelectedComponent = formComponents[dropDownType];
-          // console.log("SelectedComponent", dropDownType);
 
           return (
             <StyledFormBlock key={index}>
-              <div>
-                <Dropdown
-                  formFields={formFields}
-                  onSelect={(selectedFormId) =>
-                    handleSelect(dropdown.id, selectedFormId)
-                  }
-                  mb="6px"
+              <Dropdown
+                dropType={dropDownType}
+                formFields={formFields}
+                onSelect={(selectedFormId) =>
+                  handleSelect(dropDownType, selectedFormId)
+                }
+                mb="10px"
+              />
+              {SelectedComponent ? (
+                <SelectedComponent
+                  fields={data.fields}
+                  defaultValues={defaultValues}
                 />
-                {SelectedComponent ? (
-                  <SelectedComponent />
-                ) : (
-                  <div>未選擇說明頁類型</div>
-                )}
-                <StyledBtn
-                  type="button"
-                  onClick={() => removeDropdown(dropdown.id)}
-                  // my="10px"
-                >
-                  -
-                </StyledBtn>
-              </div>
+              ) : (
+                <div>未選擇說明頁類型</div>
+              )}
+              <StyledBtn type="button" onClick={() => removeDropdown(data.id)}>
+                -
+              </StyledBtn>
+
               <hr className="horizontal-line" />
             </StyledFormBlock>
           );

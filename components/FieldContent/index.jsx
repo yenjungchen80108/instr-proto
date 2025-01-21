@@ -7,7 +7,7 @@ import Input from "@/components/Fields/Input";
 import GroupedInput from "@/components/Fields/GroupedInput";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
 
-const FieldContent = ({ className = "", fieldData }) => {
+const FieldContent = ({ className = "", fieldData, fieldValue }) => {
   const {
     instrConfig: {
       instrFieldType: {
@@ -28,11 +28,17 @@ const FieldContent = ({ className = "", fieldData }) => {
       case "static_image":
         return <StaticImage key={index} {...content} {...staticImage} />;
       case "input_number":
-        return <Input key={index} {...content} {...inputNumber} />;
+        return (
+          <Input key={index} {...content} {...inputNumber} {...fieldValue} />
+        );
       case "input_text":
-        return <Input key={index} {...content} {...inputText} />;
+        return (
+          <Input key={index} {...content} {...inputText} {...fieldValue} />
+        );
       case "input_text_color":
-        return <Input key={index} {...content} {...inputTextColor} />;
+        return (
+          <Input key={index} {...content} {...inputTextColor} {...fieldValue} />
+        );
       case "double_input_number":
         return <GroupedInput key={index} {...content} {...doubleInputNumber} />;
       case "quadruple_input_number":
