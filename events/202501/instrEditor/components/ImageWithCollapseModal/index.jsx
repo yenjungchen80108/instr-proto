@@ -18,7 +18,11 @@ const ImageWithCollapseModal = ({ className, ...props }) => {
   return (
     <div className={className}>
       <h2>{fieldData?.title}</h2>
-      <FieldContent fieldData={fieldData} fieldValue={props} />
+      <FieldContent
+        fieldData={fieldData}
+        fieldValue={props.defaultValues}
+        formId={props.formId}
+      />
     </div>
   );
 };
