@@ -8,6 +8,7 @@ import SimpleColorPicker from "./ColorPicker";
 
 const Input = (props) => {
   const {
+    formId,
     className,
     required,
     registerName,
@@ -28,13 +29,13 @@ const Input = (props) => {
     defaultValues,
   } = props;
 
-  const defaultValue = defaultValues?.[registerName];
-
   const formContext = useFormContext();
   const { register, formState } = formContext;
   const fieldError = formState.errors[registerName];
-
   const disabled = useMemo(() => disabledProps, [disabledProps]);
+
+  const uniqueKey = `${registerName}_${formId}`;
+  const defaultValue = defaultValues?.[uniqueKey];
 
   return (
     <StyledInputContainer className={className}>
@@ -52,7 +53,7 @@ const Input = (props) => {
           {type === "text" && (
             <input
               style={style}
-              {...register(registerName, {
+              {...register(uniqueKey, {
                 required,
                 minLength,
                 maxLength,
@@ -68,15 +69,16 @@ const Input = (props) => {
           )}
           {type === "color" && (
             <SimpleColorPicker
-              {...register(registerName, {})}
+              register={register}
               disabled={disabled}
               defaultValue={defaultValue}
+              uniqueKey={uniqueKey}
             />
           )}
           {type === "number" && (
             <input
               style={style}
-              {...register(registerName, {
+              {...register(uniqueKey, {
                 required,
                 min: {
                   value: min?.value || 0,
@@ -101,7 +103,7 @@ const Input = (props) => {
           {type === "textarea" && (
             <textarea
               style={style}
-              {...register(registerName, {
+              {...register(uniqueKey, {
                 required,
                 minLength,
                 maxLength,

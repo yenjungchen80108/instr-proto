@@ -6,7 +6,7 @@ import { space } from "styled-system";
 import FieldContent from "@/components/FieldContent";
 import { FIELD_TYPE } from "@/events/202501/instrEditor/constant";
 
-const ImageWithNavTab = ({ className }) => {
+const ImageWithNavTab = ({ className, ...props }) => {
   const {
     instrConfig: { formFields },
   } = useSelector(instrConfigSelector);
@@ -16,7 +16,11 @@ const ImageWithNavTab = ({ className }) => {
   return (
     <div className={className}>
       <h2>{fieldData?.title}</h2>
-      <FieldContent fieldData={fieldData} />
+      <FieldContent
+        fieldData={fieldData}
+        fieldValue={props.defaultValues}
+        formId={props.formId}
+      />
     </div>
   );
 };

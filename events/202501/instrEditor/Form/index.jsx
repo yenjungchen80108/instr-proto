@@ -46,11 +46,11 @@ const Form = ({ className, onSubmit = () => null }) => {
     }
   }, [instrPageId]);
 
-  const defaultValues = formData.reduce((acc, item) => {
-    // 遍历每个 fields 数组
+  const defaultValues = formData.reduce((acc, item, index) => {
     item.fields.forEach((field) => {
       if (field.registerName) {
-        acc[field.registerName] = String(field.value) || ""; // 设置默认值为 value，或空字符串
+        const uniqueKey = `${field.registerName}_${index}`;
+        acc[uniqueKey] = String(field.value) || "";
       }
     });
     return acc;
@@ -152,6 +152,7 @@ const Form = ({ className, onSubmit = () => null }) => {
               />
               {SelectedComponent ? (
                 <SelectedComponent
+                  formId={index}
                   fields={data.fields}
                   defaultValues={defaultValues}
                 />
