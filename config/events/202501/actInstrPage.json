@@ -18,7 +18,7 @@
               },
               "style": {
                 "right": 20,
-                "top": 440,
+                "top": 450,
                 "width": 100,
                 "display": "block"
               },
@@ -51,7 +51,7 @@
             },
             "styles": {
               "width": 60,
-              "top": 4,
+              "top": 10,
               "right": 4
             },
             "scroll_target": ".tab-list",
@@ -73,7 +73,7 @@
             },
             "styles": {
               "width": 60,
-              "top": 4,
+              "top": 8,
               "right": 4
             },
             "scroll_target": ".tab-list",
@@ -95,7 +95,7 @@
             },
             "styles": {
               "width": 60,
-              "top": 4,
+              "top": 6,
               "right": 4
             },
             "scroll_target": ".tab-list",

@@ -6,6 +6,7 @@ import StaticImage from "@/components/Fields/StaticImage";
 import Input from "@/components/Fields/Input";
 import GroupedInput from "@/components/Fields/GroupedInput";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
+import { composeList } from "@/utils/mergeJson";
 
 const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
   const {
@@ -24,17 +25,39 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
   const renderContent = (content, index) => {
     if (!content.type) return null;
 
+    const uniqueKey = `${content?.registerName}_${formId}`;
+    const defaultValue = fieldValue?.[uniqueKey];
+
+    const composeDoubleInput = composeList(
+      content.fields,
+      doubleInputNumber.fields,
+      "id"
+    );
+    const composeQuadrupleInput = composeList(
+      content.fields,
+      quadrupleInputNumber.fields,
+      "id"
+    );
+
     switch (content.type) {
       case "static_image":
-        return <StaticImage key={index} {...content} {...staticImage} />;
+        return (
+          <StaticImage
+            key={index}
+            {...content}
+            {...staticImage}
+            registerName={uniqueKey}
+            defaultValue={defaultValue}
+          />
+        );
       case "input_number":
         return (
           <Input
             key={index}
             {...content}
             {...inputNumber}
-            defaultValues={fieldValue}
-            formId={formId}
+            registerName={uniqueKey}
+            defaultValue={defaultValue}
           />
         );
       case "input_text":
@@ -43,8 +66,8 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             key={index}
             {...content}
             {...inputText}
-            defaultValues={fieldValue}
-            formId={formId}
+            registerName={uniqueKey}
+            defaultValue={defaultValue}
           />
         );
       case "input_text_color":
@@ -53,15 +76,31 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             key={index}
             {...content}
             {...inputTextColor}
-            defaultValues={fieldValue}
-            formId={formId}
+            registerName={uniqueKey}
+            defaultValue={defaultValue}
           />
         );
       case "double_input_number":
-        return <GroupedInput key={index} {...content} {...doubleInputNumber} />;
+        return (
+          <GroupedInput
+            key={index}
+            {...content}
+            {...doubleInputNumber}
+            formId={formId}
+            fieldValue={fieldValue}
+            fields={composeDoubleInput}
+          />
+        );
       case "quadruple_input_number":
         return (
-          <GroupedInput key={index} {...content} {...quadrupleInputNumber} />
+          <GroupedInput
+            key={index}
+            {...content}
+            {...quadrupleInputNumber}
+            formId={formId}
+            fieldValue={fieldValue}
+            fields={composeQuadrupleInput}
+          />
         );
       default:
         return null;

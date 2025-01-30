@@ -20,3 +20,21 @@ export const deepMerge = (obj1, obj2) => {
 
   return JSON.parse(JSON.stringify(merged));
 };
+
+// compose list by key
+export const composeList = (list1 = [], list2 = [], key = "id") => {
+  const newList = list1?.map((config) => {
+    const target = list2?.find((item) => config[key] === item[key]);
+
+    if (target) {
+      return {
+        ...config,
+        ...target,
+      };
+    }
+
+    return config;
+  });
+
+  return newList;
+};

@@ -18,6 +18,8 @@ import { instrConfigToFormFields } from "@/hoc/jsonAdapter";
 import { FIELD_TYPE } from "../constant";
 import { StyledFormBlock, StyledBtn, StyledSaveBtn } from "./styles";
 
+import { extractRegisterValues } from "./utils";
+
 const formComponents = {
   [FIELD_TYPE?.STATIC_IMAGE]: SingleStaticImage,
   [FIELD_TYPE?.IMAGE_WITH_NAV_TAB]: ImageWithNavTab,
@@ -46,18 +48,26 @@ const Form = ({ className, onSubmit = () => null }) => {
     }
   }, [instrPageId]);
 
+  // const defaultValues = formData.reduce((acc, item, index) => {
+  //   item.fields.forEach((field) => {
+  //     if (field.registerName) {
+  //       const uniqueKey = `${field.registerName}_${index}`;
+  //       acc[uniqueKey] = String(field.value) || "";
+  //     }
+
+  //   });
+  //   return acc;
+  // }, {});
+
   const defaultValues = formData.reduce((acc, item, index) => {
-    item.fields.forEach((field) => {
-      if (field.registerName) {
-        const uniqueKey = `${field.registerName}_${index}`;
-        acc[uniqueKey] = String(field.value) || "";
-      }
-    });
+    if (item.fields && Array.isArray(item.fields)) {
+      extractRegisterValues(item.fields, acc, index);
+    }
     return acc;
   }, {});
 
   const methods = useForm({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues,
   });
 
