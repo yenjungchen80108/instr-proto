@@ -12,8 +12,10 @@ const GroupedInput = ({
   label,
   validate,
   placeholder,
+  formId,
   required,
   defaultLabel,
+  fieldValue,
 }) => {
   const formContext = useFormContext();
   const { register, formState } = formContext;
@@ -26,21 +28,28 @@ const GroupedInput = ({
         {required && <span className="need-mark">*</span>}
       </h3>
       <StyledGroupedInput>
-        {fields.map((field, index) => (
-          <div key={index} className="input-item">
-            <span>{field.label || field.defaultLabel} </span>
-            <input
-              type={type}
-              placeholder={placeholder || field.defaultPlaceholder}
-              {...register(`${registerName}.${field.registerName}`, {
-                required: true,
-                validate: {
-                  ...validate,
-                },
-              })}
-            />
-          </div>
-        ))}
+        {fields.map((field, index) => {
+          const uniqueKey = `${field?.registerName}_${formId}`;
+          const defaultValue = fieldValue?.[uniqueKey];
+
+          return (
+            <div key={index} className="input-item">
+              <span>{field.defaultLabel || field.label} </span>
+              <input
+                type={field.type}
+                placeholder={field.placeholder || field.defaultPlaceholder}
+                {...register(uniqueKey, {
+                  required: true,
+                  validate: {
+                    ...validate,
+                  },
+                })}
+                // registerName={uniqueKey}
+                defaultValue={defaultValue}
+              />
+            </div>
+          );
+        })}
         {fieldError && (
           <div className="input-desc">
             <div className="input-alert">

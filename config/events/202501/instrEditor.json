@@ -11,7 +11,7 @@
   "instr_field_type": {
     "static_image": {
       "type": "single_static_image",
-      "label": "上傳說明圖",
+      "default_label": "上傳說明圖",
       "required": true
     },
     "input_text": {
@@ -45,16 +45,16 @@
       "required": true,
       "fields": [
         {
+          "id": 1,
           "type": "number",
-          "register_name": "欄位1",
           "default_label": "長",
           "default_placeholder": 0,
           "min": { "value": 1, "message": "需大於或等於 1" },
           "max": { "value": 500, "message": "需小於或等於 500" }
         },
         {
+          "id": 2,
           "type": "number",
-          "register_name": "欄位2",
           "default_label": "寬",
           "default_placeholder": 0,
           "min": { "value": 1, "message": "需大於或等於 1" },
@@ -68,29 +68,29 @@
       "required": true,
       "fields": [
         {
+          "id": 1,
           "type": "number",
-          "register_name": "欄位1",
           "default_label": "上",
           "default_placeholder": 0,
           "max": 10
         },
         {
+          "id": 2,
           "type": "number",
-          "register_name": "欄位2",
           "default_label": "右",
           "default_placeholder": 0,
           "max": 10
         },
         {
+          "id": 3,
           "type": "number",
-          "register_name": "欄位3",
           "default_label": "下",
           "default_placeholder": 0,
           "max": 10
         },
         {
+          "id": 4,
           "type": "number",
-          "register_name": "欄位4",
           "default_label": "左",
           "default_placeholder": 0,
           "max": 10
@@ -115,7 +115,8 @@
         {
           "id": 1,
           "type": "static_image",
-          "label": "上傳說明圖"
+          "label": "上傳說明圖",
+          "register_name": "props.src"
         },
         {
           "id": 2,
@@ -127,21 +128,54 @@
         {
           "id": 3,
           "type": "static_image",
-          "label": "上傳Tab按鈕圖"
+          "label": "上傳Tab按鈕圖",
+          "register_name": "actionButton.titleImage",
+          "width": 150,
+          "height": 100
         },
         {
           "id": 4,
           "type": "quadruple_input_number",
           "label": "Tab按鈕位置",
-          "register_name": "tabButtonPosition",
-          "placeholder": 0
+          "fields": [
+            {
+              "id": 1,
+              "register_name": "actionButton.styles.top",
+              "placeholder": 0
+            },
+            {
+              "id": 2,
+              "register_name": "actionButton.styles.right",
+              "placeholder": 0
+            },
+            {
+              "id": 3,
+              "register_name": "actionButton.styles.bottom",
+              "placeholder": 0
+            },
+            {
+              "id": 4,
+              "register_name": "actionButton.styles.left",
+              "placeholder": 0
+            }
+          ]
         },
         {
           "id": 5,
           "type": "double_input_number",
           "label": "Tab按鈕長寬",
-          "register_name": "tabButtonSize",
-          "placeholder": 100
+          "fields": [
+            {
+              "id": 1,
+              "register_name": "actionButton.styles.height",
+              "placeholder": 100
+            },
+            {
+              "id": 2,
+              "register_name": "actionButton.styles.width",
+              "placeholder": 100
+            }
+          ]
         }
       ]
     },
@@ -151,7 +185,8 @@
         {
           "id": 1,
           "type": "static_image",
-          "label": "上傳說明圖"
+          "label": "上傳說明圖",
+          "register_name": "props.src"
         },
         {
           "id": 2,
@@ -177,21 +212,54 @@
         {
           "id": 5,
           "type": "static_image",
-          "label": "上傳機率彈窗內文圖"
+          "label": "上傳機率彈窗按鈕圖",
+          "register_name": "modal.detailButton.titleImage",
+          "width": 150,
+          "height": 100
         },
         {
           "id": 6,
           "type": "quadruple_input_number",
           "label": "機率按鈕位置",
-          "register_name": "modal.detailButton.style.right",
-          "placeholder": 0
+          "fields": [
+            {
+              "id": 1,
+              "register_name": "modal.detailButton.style.top",
+              "placeholder": 0
+            },
+            {
+              "id": 2,
+              "register_name": "modal.detailButton.style.right",
+              "placeholder": 0
+            },
+            {
+              "id": 3,
+              "register_name": "modal.detailButton.style.bottom",
+              "placeholder": 0
+            },
+            {
+              "id": 4,
+              "register_name": "modal.detailButton.style.left",
+              "placeholder": 0
+            }
+          ]
         },
         {
           "id": 7,
           "type": "double_input_number",
           "label": "機率按鈕長寬",
-          "register_name": "modal.detailButton.style.width",
-          "placeholder": 100
+          "fields": [
+            {
+              "id": 1,
+              "register_name": "modal.detailButton.style.height",
+              "placeholder": 100
+            },
+            {
+              "id": 2,
+              "register_name": "modal.detailButton.style.width",
+              "placeholder": 100
+            }
+          ]
         }
       ]
     },
