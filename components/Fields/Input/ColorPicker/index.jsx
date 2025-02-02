@@ -5,7 +5,7 @@ const SimpleColorPicker = ({
   className,
   defaultValue,
   register,
-  uniqueKey,
+  registerName,
 }) => {
   const [color, setColor] = useState(defaultValue || "#ffffff"); // 默认颜色
 
@@ -13,7 +13,7 @@ const SimpleColorPicker = ({
     <div className={className}>
       <span>選擇顏色: {color}</span>
       <input
-        {...register(uniqueKey, {})}
+        {...register(registerName, {})}
         type="color"
         className="color-picker"
         value={color}
@@ -32,11 +32,18 @@ export default styled(SimpleColorPicker)`
     width: 50px;
     height: 1.8em;
     vertical-align: bottom;
-    border: none;
+    border: 1px solid #000;
     border-radius: 1px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     cursor: pointer;
+  }
+
+  .color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  .color-picker::-webkit-color-swatch {
+    border: none;
   }
 `;
