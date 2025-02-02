@@ -1,14 +1,21 @@
 import { useMemo } from "react";
 import { useFormContext } from "react-hook-form";
-import classNames from "classnames";
 
 import { StyledInput } from "./styles";
 import { StyledInputContainer } from "../styles";
+
 import SimpleColorPicker from "./ColorPicker";
+import TextInput from "./TextInput";
+import NumInput from "./NumInput";
+import TextArea from "./TextArea";
+
+// 取得嵌套物件的值
+const getNestedValue = (obj, path) => {
+  return path.split(".").reduce((acc, key) => acc?.[key], obj);
+};
 
 const Input = (props) => {
   const {
-    formId,
     className,
     required,
     registerName,
@@ -16,26 +23,24 @@ const Input = (props) => {
     label,
     defaultLabel,
     type,
-    placeholder,
-    defaultPlaceholder,
-    style,
     disabled: disabledProps = false,
-    min,
-    max,
-    minLength,
-    maxLength,
-    pattern,
-    validate,
-    defaultValues,
+    defaultValue,
   } = props;
 
   const formContext = useFormContext();
   const { register, formState } = formContext;
-  const fieldError = formState.errors[registerName];
   const disabled = useMemo(() => disabledProps, [disabledProps]);
 
-  const uniqueKey = `${registerName}_${formId}`;
-  const defaultValue = defaultValues?.[uniqueKey];
+  const fieldError = getNestedValue(formState.errors, registerName);
+
+  const inputComponents = {
+    text: TextInput,
+    color: SimpleColorPicker,
+    number: NumInput,
+    textarea: TextArea,
+  };
+
+  const InputComponent = inputComponents[type];
 
   return (
     <StyledInputContainer className={className}>
@@ -50,73 +55,13 @@ const Input = (props) => {
           )}
         </div>
         <div className="input-info">
-          {type === "text" && (
-            <input
-              style={style}
-              {...register(uniqueKey, {
-                required,
-                minLength,
-                maxLength,
-                pattern,
-                validate,
-              })}
-              defaultValue={defaultValue}
-              type={type}
-              placeholder={placeholder || defaultPlaceholder}
-              disabled={disabled}
-              className={classNames("input", { "input-disabled": disabled })}
-            />
-          )}
-          {type === "color" && (
-            <SimpleColorPicker
-              register={register}
-              disabled={disabled}
-              defaultValue={defaultValue}
-              uniqueKey={uniqueKey}
-            />
-          )}
-          {type === "number" && (
-            <input
-              style={style}
-              {...register(uniqueKey, {
-                required,
-                min: {
-                  value: min?.value || 0,
-                  message: min?.message || "輸入值過小",
-                },
-                max: {
-                  value: max?.value || 10,
-                  message: max?.message || "輸入值過大",
-                },
-                validate: {
-                  notStartWithZero: (value) =>
-                    /^[1-9][0-9]*$/.test(value) || "數字不能以 0 開頭",
-                },
-              })}
-              type={type}
-              placeholder={placeholder}
-              disabled={disabled}
-              className={classNames("input", { "input-disabled": disabled })}
-              defaultValue={defaultValue}
-            />
-          )}
-          {type === "textarea" && (
-            <textarea
-              style={style}
-              {...register(uniqueKey, {
-                required,
-                minLength,
-                maxLength,
-                pattern,
-                validate,
-              })}
-              placeholder={placeholder}
-              disabled={disabled}
-              className={classNames("input textarea", {
-                "input-disabled": disabled,
-              })}
-            />
-          )}
+          <InputComponent
+            register={register}
+            defaultValue={defaultValue}
+            disabled={disabled}
+            type={type}
+            {...props}
+          />
           {fieldError && (
             <div className="input-desc">
               <div className="input-alert">

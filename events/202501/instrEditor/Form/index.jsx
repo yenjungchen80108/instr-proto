@@ -35,18 +35,19 @@ const Form = ({ className, onSubmit = () => null }) => {
   } = useSelector(instrConfigSelector);
   const [formData, setFormData] = useState([]);
 
-  const router = useRouter();
-  const { instrPageId } = router.query;
+  // const router = useRouter();
+  // const { instrPageId } = router.query;
 
   useEffect(() => {
     // const defaultFormData = panelsConfig?.[instrPageId] || {};
     const currentFormFields =
       instrConfigToFormFields(panelsConfig, formFields) || [];
 
-    if (instrPageId) {
-      setFormData(currentFormFields);
-    }
-  }, [instrPageId]);
+    // if (instrPageId) {
+    //   setFormData(currentFormFields);
+    // }
+    setFormData(currentFormFields);
+  }, []);
 
   // const defaultValues = formData.reduce((acc, item, index) => {
   //   item.fields.forEach((field) => {

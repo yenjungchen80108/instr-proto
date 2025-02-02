@@ -20,11 +20,11 @@ const Tab4 = ({ className, isEditMode, fileName, actInstrConfigData }) => {
   const router = useRouter();
 
   const handleGoToEdit = () => {
-    const instrPageId = 4;
+    // const instrPageId = 4;
     // router.push(`/events/202501/instr/instrPageId=${instrPageId}`);
     router.push({
       pathname: "/events/202501/instr",
-      query: { instrPageId },
+      // query: { instrPageId },
     });
   };
 
@@ -48,7 +48,7 @@ const Tab4 = ({ className, isEditMode, fileName, actInstrConfigData }) => {
               <StyledSeeMore onClick={data?.onToggle} {...(data?.styles || {})}>
                 <img
                   src={withS3Host(
-                    `/images/202501/act/instr/${data.open ? "see_more_open" : "see_more"}.png`
+                    `images/202501/act/instr/${data.open ? "see_more_open" : "see_more"}.png`
                   )}
                   alt=""
                 />
