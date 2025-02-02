@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { instrConfigSelector, actConfigSelector } from "./store/selector";
 import { useRouter } from "next/router";
 import ActionButton from "@/components/ActionButton";
+import { ToastContainer } from "react-toastify";
 
 const page = () => {
   const {
@@ -30,6 +31,18 @@ const page = () => {
             <div className="btn-text">Back</div>
           </ActionButton>
           <Form />
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </StyledContent>
       </StyledContainer>
     </ThemeProvider>

@@ -44,6 +44,10 @@ const UploadBlock = ({ fileName, configData, children }) => {
     // const fileName = "example.json"; // 假设文件名固定或从输入框获取
 
     try {
+      // 先批量上傳圖片
+      // console.log("Uploading images to S3...");
+      // await batchUploadImages();
+
       // 1. 调用服务端 API 获取预签名 URL
       const response = await fetch("/api/gen-presigned-url", {
         method: "POST",
@@ -56,7 +60,6 @@ const UploadBlock = ({ fileName, configData, children }) => {
         throw new Error("Failed to get presigned URL");
       }
       const { url, key } = await response.json();
-      // console.log({ url, key });
 
       // 2. 使用预签名 URL 上传文件
       const fileContent = JSON.stringify(jsonData); // 假设这是需要上传的 JSON 数据

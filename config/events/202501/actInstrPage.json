@@ -22,14 +22,14 @@
                 "width": 100,
                 "display": "block"
               },
-              "title_image": "/images/202501/act/instr/detail_btn.png"
+              "title_image": "images/202501/act/instr/detail_btn.png"
             },
             "props": {
               "class_name": "details-modal",
               "panel_data": [
                 {
                   "props": {
-                    "src": "/images/202501/act/instr/act_desc.png"
+                    "src": "images/202501/act/instr/act_desc.png"
                   },
                   "type": "image"
                 }
@@ -39,7 +39,7 @@
             }
           },
           "props": {
-            "src": "/images/202501/act/instr/0.png"
+            "src": "images/202501/act/instr/0.png"
           },
           "type": "image"
         },
@@ -55,13 +55,13 @@
               "right": 4
             },
             "scroll_target": ".tab-list",
-            "title_image": "/images/202501/act/instr/action_btn.png"
+            "title_image": "images/202501/act/instr/action_btn.png"
           },
           "container_props": {
             "class_name": "section-1"
           },
           "props": {
-            "src": "/images/202501/act/instr/1.png"
+            "src": "images/202501/act/instr/1.png"
           },
           "type": "image"
         },
@@ -77,13 +77,13 @@
               "right": 4
             },
             "scroll_target": ".tab-list",
-            "title_image": "/images/202501/act/instr/action_btn.png"
+            "title_image": "images/202501/act/instr/action_btn.png"
           },
           "container_props": {
             "class_name": "section-2"
           },
           "props": {
-            "src": "/images/202501/act/instr/2.png"
+            "src": "images/202501/act/instr/2.png"
           },
           "type": "image"
         },
@@ -99,13 +99,13 @@
               "right": 4
             },
             "scroll_target": ".tab-list",
-            "title_image": "/images/202501/act/instr/action_btn.png"
+            "title_image": "images/202501/act/instr/action_btn.png"
           },
           "container_props": {
             "class_name": "section-3"
           },
           "props": {
-            "src": "/images/202501/act/instr/3.png"
+            "src": "images/202501/act/instr/3.png"
           },
           "type": "image"
         },
