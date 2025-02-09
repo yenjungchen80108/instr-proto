@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import classNames from "classnames";
 
 const SimpleColorPicker = ({
   className,
   defaultValue,
   register,
   registerName,
+  disabled,
 }) => {
   const [color, setColor] = useState(defaultValue || "#ffffff"); // 默认颜色
 
@@ -15,7 +17,7 @@ const SimpleColorPicker = ({
       <input
         {...register(registerName, {})}
         type="color"
-        className="color-picker"
+        className={classNames("color-picker", { disabled })}
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
@@ -38,6 +40,13 @@ export default styled(SimpleColorPicker)`
     -moz-appearance: none;
     appearance: none;
     cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.8;
+      border: 1px solid #ccc;
+    }
   }
 
   .color-picker::-webkit-color-swatch-wrapper {

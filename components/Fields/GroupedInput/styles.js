@@ -22,6 +22,11 @@ export const StyledGroupedInput = styled.div`
     }
   }
 
+  .input-disabled {
+    color: var(--disabled-text-color);
+    background-color: var(--disabled-bg-color);
+  }
+
   .input-item {
     display: flex;
     align-items: center;

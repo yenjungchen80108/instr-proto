@@ -16,21 +16,11 @@ const StaticImage = ({
   defaultLabel,
 }) => {
   const { uploadedImage, handleImageChange } = useImageUploader();
-  const [imageUrl, setImageUrl] = useState(null);
-  const [localModified, setLocalModified] = useState(false);
 
   // 處理圖片變更（本地選擇新圖）
   const handleImageUpdate = (file) => {
     handleImageChange(file, defaultValue);
-
-    setLocalModified(true); // 標記為已變更但未上傳
   };
-
-  useEffect(() => {
-    if (registerName) {
-      setImageUrl(defaultValue);
-    }
-  }, [registerName, defaultValue]);
 
   return (
     <div className={className}>
@@ -39,9 +29,9 @@ const StaticImage = ({
         {required && <span className="need-mark">*</span>}{" "}
       </h3>
       <SingleImageUploader
-        onChange={handleImageUpdate}
+        onChange={(file) => handleImageUpdate(file, defaultValue)}
         maxFileSize={1 * 1024 * 1024}
-        localModified={localModified}
+        // localModified={localModified}
         defaultImageUrl={defaultValue}
         registerName={registerName}
       />
@@ -57,11 +47,11 @@ const StaticImage = ({
         <span className="name">
           {uploadedImage?.previewUrl || (
             <a
-              href={withS3Host(imageUrl)}
+              href={withS3Host(defaultValue)}
               target="_blank"
               className="link-image"
             >
-              {withS3Host(imageUrl)}
+              {withS3Host(defaultValue)}
             </a>
           )}
         </span>
@@ -70,9 +60,9 @@ const StaticImage = ({
         <div className="image-preview">
           <img src={uploadedImage.previewUrl} alt="Uploaded" />
         </div>
-      ) : imageUrl ? (
+      ) : defaultValue ? (
         <div className="image-preview">
-          <img src={withS3Host(imageUrl)} alt="Static from S3" />
+          <img src={withS3Host(defaultValue)} alt="Static from S3" />
         </div>
       ) : (
         <p>No image available</p>

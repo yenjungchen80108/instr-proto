@@ -7,7 +7,7 @@ import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector"
 import { FIELD_TYPE } from "@/events/202501/instrEditor/constant";
 import FieldContent from "@/components/FieldContent";
 
-const SingleStaticImage = ({ className }) => {
+const SingleStaticImage = ({ className, ...props }) => {
   const {
     instrConfig: { formFields },
   } = useSelector(instrConfigSelector);
@@ -17,7 +17,12 @@ const SingleStaticImage = ({ className }) => {
   return (
     <div className={className}>
       <h2>{fieldData?.title}</h2>
-      <FieldContent fieldData={fieldData} />
+      <FieldContent
+        fieldData={fieldData}
+        fieldValue={props.defaultValues}
+        formId={props.formId}
+        {...props}
+      />
     </div>
   );
 };

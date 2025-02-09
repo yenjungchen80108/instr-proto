@@ -42,7 +42,6 @@
     "double_input_number": {
       "type": "number",
       "default_label": "雙欄位",
-      "required": true,
       "fields": [
         {
           "id": 1,
@@ -65,7 +64,6 @@
     "quadruple_input_number": {
       "type": "number",
       "default_label": "四欄位",
-      "required": true,
       "fields": [
         {
           "id": 1,

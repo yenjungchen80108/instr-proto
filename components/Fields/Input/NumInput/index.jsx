@@ -39,6 +39,7 @@ const NumInput = ({
         disabled={disabled}
         className={classNames("input", { "input-disabled": disabled })}
         defaultValue={defaultValue}
+        autoFocus={false}
       />
     </div>
   );

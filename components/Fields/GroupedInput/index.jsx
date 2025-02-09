@@ -2,6 +2,7 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { StyledGroupedInput } from "./styles";
 import { StyledInputContainer } from "../styles";
+import classNames from "classnames";
 // import { integerValidation } from "@/utils/formValidation";
 
 const GroupedInput = ({
@@ -16,6 +17,7 @@ const GroupedInput = ({
   required,
   defaultLabel,
   fieldValue,
+  isDisabled,
 }) => {
   const formContext = useFormContext();
   const { register, formState } = formContext;
@@ -39,13 +41,17 @@ const GroupedInput = ({
                 type={field.type}
                 placeholder={field.placeholder || field.defaultPlaceholder}
                 {...register(uniqueKey, {
-                  required: true,
+                  required,
                   validate: {
                     ...validate,
                   },
                 })}
                 // registerName={uniqueKey}
                 defaultValue={defaultValue}
+                disabled={isDisabled}
+                className={classNames("input", {
+                  "input-disabled": isDisabled,
+                })}
               />
             </div>
           );

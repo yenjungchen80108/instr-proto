@@ -8,7 +8,13 @@ import GroupedInput from "@/components/Fields/GroupedInput";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
 import { composeList } from "@/utils/mergeJson";
 
-const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
+const FieldContent = ({
+  className = "",
+  formId,
+  fieldData,
+  fieldValue,
+  disabled,
+}) => {
   const {
     instrConfig: {
       instrFieldType: {
@@ -58,6 +64,7 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             {...inputNumber}
             registerName={uniqueKey}
             defaultValue={defaultValue}
+            isDisabled={disabled}
           />
         );
       case "input_text":
@@ -68,6 +75,7 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             {...inputText}
             registerName={uniqueKey}
             defaultValue={defaultValue}
+            isDisabled={disabled}
           />
         );
       case "input_text_color":
@@ -78,6 +86,7 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             {...inputTextColor}
             registerName={uniqueKey}
             defaultValue={defaultValue}
+            isDisabled={disabled}
           />
         );
       case "double_input_number":
@@ -89,6 +98,7 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             formId={formId}
             fieldValue={fieldValue}
             fields={composeDoubleInput}
+            isDisabled={disabled}
           />
         );
       case "quadruple_input_number":
@@ -100,6 +110,7 @@ const FieldContent = ({ className = "", formId, fieldData, fieldValue }) => {
             formId={formId}
             fieldValue={fieldValue}
             fields={composeQuadrupleInput}
+            isDisabled={disabled}
           />
         );
       default:

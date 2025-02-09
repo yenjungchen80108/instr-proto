@@ -25,11 +25,12 @@ const Input = (props) => {
     type,
     disabled: disabledProps = false,
     defaultValue,
+    isDisabled,
   } = props;
 
   const formContext = useFormContext();
   const { register, formState } = formContext;
-  const disabled = useMemo(() => disabledProps, [disabledProps]);
+  const disabled = isDisabled || useMemo(() => disabledProps, [disabledProps]);
 
   const fieldError = getNestedValue(formState.errors, registerName);
 
