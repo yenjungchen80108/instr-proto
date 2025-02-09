@@ -58,19 +58,18 @@ const SingleImageUploader = ({
         {/* 顯示已選擇的檔案名稱 */}
         {/* <button onClick={() => inputRef.current.click()}>選擇檔案</button> */}
         <div>
-          <label htmlFor="input-file" className="input-file">
+          <label className="input-file">
             選擇檔案
+            <input
+              type="file"
+              accept={acceptType.join(",")}
+              onChange={handleChange}
+              ref={inputRef}
+              style={{ display: "none" }} // 隱藏原始的 input
+            />
           </label>
           {fileName && <span>{fileName}</span>}
         </div>
-        <input
-          type="file"
-          id="input-file"
-          accept={acceptType.join(",")}
-          onChange={handleChange}
-          ref={inputRef}
-          style={{ display: "none" }} // 隱藏原始的 input
-        />
         {/* <span className="file-name">{fileName || "未選擇任何檔案"}</span> */}
         <button
           onClick={() => {

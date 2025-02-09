@@ -23,6 +23,7 @@ const Terms = ({ className, ...props }) => {
         fieldData={fieldData}
         fieldValue={props.defaultValues}
         formId={props.formId}
+        {...props}
       />
     </div>
   );

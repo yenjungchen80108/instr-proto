@@ -16,19 +16,24 @@ export const StyledBtn = styled.div`
   color: #b1b1b1;
   background: #fff;
   border-radius: 10px;
-  width: 25px;
-  height: 20px;
+  width: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
-  margin-top: 10px;
+  padding: 10px 20px;
   ${space};
 `;
 
-export const StyledSaveBtn = styled(StyledBtn)`
+export const StyledSaveBtn = styled.button`
   background: #000;
   color: #fff;
   border-radius: 10px;
   width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  overflow: hidden;
+  padding: 10px 20px;
+  ${space};
 `;
