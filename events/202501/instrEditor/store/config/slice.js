@@ -10,6 +10,7 @@ export const initialState = {
     },
   },
   actConfig: {},
+  instrTempConfig: {},
 };
 
 const slice = createSlice({
@@ -22,6 +23,9 @@ const slice = createSlice({
     setInstrConfig: (state, action) => {
       state.instrConfig = action.payload.instrConfig;
     },
+    setInstrTempConfig: (state, action) => {
+      state.instrTempConfig = action.payload.instrTempConfig;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(HYDRATE, (state, { payload }) => {
@@ -33,6 +37,7 @@ const slice = createSlice({
   },
 });
 
-export const { setInstrConfig, setActConfig } = slice.actions;
+export const { setInstrConfig, setActConfig, setInstrTempConfig } =
+  slice.actions;
 
 export default slice.reducer;

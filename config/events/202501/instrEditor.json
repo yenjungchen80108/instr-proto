@@ -103,7 +103,8 @@
         {
           "id": 1,
           "type": "static_image",
-          "label": "上傳說明圖"
+          "label": "上傳說明圖",
+          "register_name": "props.src"
         }
       ]
     },

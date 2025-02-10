@@ -12,7 +12,7 @@ import reducer from "@/events/202501/instrEditor/store";
 import { getJsonFromS3 } from "@/hoc/fetchConfig";
 import { fetchConfigInfo } from "@/apis/fetchConfig";
 
-const IndexPage = ({ configData }) => {
+const IndexPage = ({ configData, ...props }) => {
   const { title, description, keywords } = configData.metaData;
 
   return (
@@ -23,7 +23,7 @@ const IndexPage = ({ configData }) => {
         <meta name="keywords" content={keywords} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Page />
+      <Page {...props} />
     </>
   );
 };
@@ -59,6 +59,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       store.dispatch(setActConfig({ actConfig: actConfig }));
 
+      console.log("actConfig", actConfig);
+
       store.dispatch(setInstrConfig({ instrConfig: configData }));
     } catch (err) {
       console.log("error", err);
@@ -72,6 +74,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
       props: {
         configData,
         actConfig,
+        instrTabId: 4,
+        fileName: "config/202501/actInstrPage.json",
       },
     };
   }

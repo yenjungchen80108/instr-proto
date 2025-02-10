@@ -1,13 +1,13 @@
-import Form from "./Form";
 import { StyledContainer, StyledContent } from "./styles";
 import { ThemeProvider } from "styled-components";
 import { useSelector } from "react-redux";
-import { instrConfigSelector, actConfigSelector } from "./store/selector";
+import { instrConfigSelector } from "./store/selector";
 import { useRouter } from "next/router";
 import ActionButton from "@/components/ActionButton";
 import { ToastContainer } from "react-toastify";
+import Form from "./Form";
 
-const page = () => {
+const page = ({ ...props }) => {
   const {
     instrConfig: { styles },
   } = useSelector(instrConfigSelector);
@@ -18,7 +18,6 @@ const page = () => {
     router.push(`/events/202501/act`);
   };
 
-  // 检查 styles 是否为 undefined
   if (!styles) {
     return <div>Loading...</div>;
   }
@@ -27,10 +26,10 @@ const page = () => {
     <ThemeProvider theme={styles}>
       <StyledContainer>
         <StyledContent>
-          <ActionButton onClick={handleGoBack}>
+          <ActionButton mb="10px" onClick={handleGoBack}>
             <div className="btn-text">Back</div>
           </ActionButton>
-          <Form />
+          <Form {...props} />
           <ToastContainer
             position="top-center"
             autoClose={5000}

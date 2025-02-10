@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { space } from "styled-system";
 import "@radix-ui/colors/slate.css";
+import "@radix-ui/colors/sky.css";
 
 export const StyledFormBlock = styled.div`
   margin-bottom: 10px;
@@ -8,6 +9,12 @@ export const StyledFormBlock = styled.div`
   .horizontal-line {
     border: 1px dashed var(--slate-6);
     margin: 5px 0;
+  }
+`;
+
+export const StyledPreviewBlock = styled.div`
+  .upload-status {
+    color: var(--sky-11);
   }
 `;
 
@@ -28,12 +35,13 @@ export const StyledSaveBtn = styled.button`
   background: #000;
   color: #fff;
   border-radius: 10px;
-  width: 60px;
+  width: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   overflow: hidden;
   padding: 10px 20px;
+  white-space: nowrap;
   ${space};
 `;
