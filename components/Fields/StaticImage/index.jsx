@@ -14,6 +14,7 @@ const StaticImage = ({
   defaultValue,
   required,
   defaultLabel,
+  isDisabled,
 }) => {
   const { uploadedImage, handleImageChange } = useImageUploader();
 
@@ -35,27 +36,32 @@ const StaticImage = ({
         defaultImageUrl={defaultValue}
         registerName={registerName}
       />
-      <div>
-        registerName:&nbsp;<span className="name">{registerName}</span>
-      </div>
-      <div>
-        defaultValue:&nbsp;
-        <span className="name">{defaultValue}</span>
-      </div>
-      <div>
-        imageUrl:&nbsp;
-        <span className="name">
-          {uploadedImage?.previewUrl || (
-            <a
-              href={withS3Host(defaultValue)}
-              target="_blank"
-              className="link-image"
-            >
-              {withS3Host(defaultValue)}
-            </a>
-          )}
-        </span>
-      </div>
+      {!isDisabled && (
+        <>
+          <div>
+            registerName:&nbsp;<span className="name">{registerName}</span>
+          </div>
+          <div>
+            defaultValue:&nbsp;
+            <span className="name">{defaultValue}</span>
+          </div>
+          <div>
+            imageUrl:&nbsp;
+            <span className="name">
+              {uploadedImage?.previewUrl || (
+                <a
+                  href={withS3Host(defaultValue)}
+                  target="_blank"
+                  className="link-image"
+                >
+                  {withS3Host(defaultValue)}
+                </a>
+              )}
+            </span>
+          </div>
+        </>
+      )}
+
       {uploadedImage ? (
         <div className="image-preview">
           <img src={uploadedImage.previewUrl} alt="Uploaded" />

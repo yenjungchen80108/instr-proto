@@ -10,6 +10,8 @@ import { space } from "styled-system";
 import { withS3Host } from "@/utils/imageHost";
 import UploadBlock from "@/events/202501/actPage/components/UploadBlock";
 
+import { renderDefaultSeeMore } from "@/components/PanelContent/utils";
+
 const Tab4 = ({ className, isEditMode, fileName, actInstrConfigData }) => {
   const {
     actConfig: { panelsConfig },

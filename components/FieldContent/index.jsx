@@ -54,6 +54,7 @@ const FieldContent = ({
             {...staticImage}
             registerName={uniqueKey}
             defaultValue={defaultValue}
+            isDisabled={disabled}
           />
         );
       case "input_number":
