@@ -1,6 +1,7 @@
 import s3 from "@/utils/s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3_BUCKET_NAME } from "@/constants/s3";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const bucketName = "instr-bucket"; // 替换为你的 S3 存储桶名称
+    const bucketName = S3_BUCKET_NAME; // 替换为你的 S3 存储桶名称
     const key = `${fileName}`; // S3 中文件的路径和名称
 
     const command = new PutObjectCommand({

@@ -10,7 +10,7 @@ import Form from "./Form";
 const page = ({ ...props }) => {
   const {
     instrConfig: { styles },
-  } = useSelector(instrConfigSelector);
+  } = useSelector(instrConfigSelector) || {};
 
   const router = useRouter();
 

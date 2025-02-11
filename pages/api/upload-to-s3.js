@@ -2,6 +2,7 @@ import s3 from "@/utils/s3";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import * as formidable from "formidable";
 import fs from "fs";
+import { S3_BUCKET_NAME } from "@/constants/s3";
 
 // Next.js 默认不支持 multipart/form-data，它的 req.body 只能解析 JSON 格式
 export const config = {
@@ -47,7 +48,7 @@ export default async function handler(req, res) {
 
       // 上传到 S3
       const params = {
-        Bucket: "instr-bucket",
+        Bucket: S3_BUCKET_NAME,
         Key: fileName,
         Body: fileData, // 这里才是真正的文件内容
         ContentType: fileType,
@@ -62,7 +63,7 @@ export default async function handler(req, res) {
 
       res.status(200).json({
         message: "Upload successful",
-        fileUrl: `https://instr-bucket.s3.amazonaws.com/${fileName}`,
+        fileUrl: `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${fileName}`,
       });
     } catch (error) {
       console.error("S3 Upload Error:", error);

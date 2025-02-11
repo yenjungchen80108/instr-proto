@@ -71,6 +71,7 @@ export default styled(ActionButton)`
   ${letterSpacing}
   &[disabled] {
     cursor: auto;
+    filter: grayscale(100%);
   }
 
   img {

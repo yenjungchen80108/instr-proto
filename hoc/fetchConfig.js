@@ -2,6 +2,8 @@ const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
 const { fromIni } = require("@aws-sdk/credential-providers");
 import camelcaseKeys from "camelcase-keys";
 
+import { S3_BUCKET_NAME } from "@/constants/s3";
+
 // 使用 `fromIni` 加载 `personal/default` Profile
 const s3 = new S3Client({
   region: "us-east-1",
@@ -12,7 +14,7 @@ const s3 = new S3Client({
 export const getJsonFromS3 = async (bucketName, key) => {
   try {
     const params = {
-      Bucket: bucketName || "instr-bucket",
+      Bucket: bucketName || S3_BUCKET_NAME,
       Key: key, // 文件名，如 "data/config.json"
     };
 
