@@ -9,7 +9,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import Edit from "./Edit";
 import Preview from "./Preview";
 
-import { instrConfigToFormFields } from "@/hoc/jsonAdapter";
+import { instrConfigToFormFields } from "@/utils/jsonAdapter";
 import { extractRegisterValues } from "./utils";
 
 const Form = ({ fileName, instrTabId }) => {

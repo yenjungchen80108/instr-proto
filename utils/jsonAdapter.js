@@ -1,3 +1,9 @@
+/**
+ * 將 instrConfig 轉換成 formFields
+ * @param {Array} panelData - 原始的 panelData
+ * @param {Array} formFields - 原始的 formFields
+ * @returns {Array} 更新後的 formFields (深拷貝，不會改動原始 formFields)
+ */
 export const instrConfigToFormFields = (panelData, formFields) => {
   const result = {};
 
@@ -66,7 +72,7 @@ export const formFieldsToInstrConfig = (instrTempConfig, panelData) => {
    * @param {object} currentObj - 當前層級要處理的物件
    * @param {Array<string>} path - 從 instrTempConfig root 走到這層的 key 路徑
    */
-  function recursiveApply(currentObj, path = []) {
+  const recursiveApply = (currentObj, path = []) => {
     // 走訪 currentObj 的每個 key/value
     for (const [key, value] of Object.entries(currentObj)) {
       if (isObject(value)) {
@@ -102,7 +108,7 @@ export const formFieldsToInstrConfig = (instrTempConfig, panelData) => {
         }
       }
     }
-  }
+  };
 
   // 執行遞迴
   recursiveApply(instrTempConfig);
@@ -113,16 +119,16 @@ export const formFieldsToInstrConfig = (instrTempConfig, panelData) => {
 /**
  * 判斷是否為物件 (排除 null, array 等)
  */
-function isObject(value) {
+export const isObject = (value) => {
   return Object.prototype.toString.call(value) === "[object Object]";
-}
+};
 
 /**
  * 分析 key 是否帶有 "_數字" 後綴，若有，回傳 [去除後綴後的key, index(數字)]
  * @param {string} key - 例如 "minHeight_0", "title_2", "abc" (無後綴)
  * @returns {[string, number | undefined]}
  */
-function splitKeyWithIndex(key) {
+export const splitKeyWithIndex = (key) => {
   const parts = key.split("_");
   if (parts.length > 1) {
     // 假設最後一段是 index
@@ -132,4 +138,4 @@ function splitKeyWithIndex(key) {
   }
   // 沒有後綴就直接回傳
   return [key, undefined];
-}
+};

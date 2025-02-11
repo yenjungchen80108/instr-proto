@@ -3,7 +3,8 @@ import Head from "next/head";
 import Page from "@/events/202501/instrEditor/Page";
 import withEventReducer from "@/hoc/withEventReducer";
 import { wrapper } from "@/store/rootStore";
-
+import { S3_BUCKET_NAME } from "@/constants/s3";
+import cookie from "cookie";
 import {
   setInstrConfig,
   setActConfig,
@@ -35,8 +36,15 @@ export default withEventReducer(IndexPage, {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    const { res, query } = context;
-    const { instrPageId } = query || {};
+    const { req, res } = context;
+
+    // 從 req.headers.cookie 取得 Cookie 字串
+    const cookieHeader = req.headers.cookie || "";
+    // 解析成物件
+    const cookies = cookie.parse(cookieHeader);
+
+    const fileName = cookies.fileName || "config/202501/actInstrPage.json";
+    const instrPageId = cookies.instrPageId || 4;
 
     let configData = {};
     let actConfig = {};
@@ -48,18 +56,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       );
 
       // set actConfig from s3
-      actConfig = await getJsonFromS3(
-        "instr-bucket",
-        "config/202501/actInstrPage.json"
-      );
+      actConfig = await getJsonFromS3(S3_BUCKET_NAME, fileName);
 
       configData = await fetchConfigInfo({
         configUrl: "/config/events/202501/instrEditor.json",
       });
 
       store.dispatch(setActConfig({ actConfig: actConfig }));
-
-      console.log("actConfig", actConfig);
 
       store.dispatch(setInstrConfig({ instrConfig: configData }));
     } catch (err) {
@@ -74,8 +77,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
       props: {
         configData,
         actConfig,
-        instrTabId: 4,
-        fileName: "config/202501/actInstrPage.json",
+        instrTabId: instrPageId,
+        fileName: fileName,
       },
     };
   }

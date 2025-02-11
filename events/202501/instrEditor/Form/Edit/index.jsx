@@ -10,7 +10,7 @@ import SingleStaticImage from "../../components/SingleStaticImage";
 import FloatImages from "../../components/FloatImages";
 import Terms from "../../components/Terms";
 
-import { formFieldsToInstrConfig } from "@/hoc/jsonAdapter";
+import { formFieldsToInstrConfig } from "@/utils/jsonAdapter";
 import { FIELD_TYPE } from "../../constant";
 import { StyledFormBlock, StyledBtn, StyledSaveBtn } from "../styles";
 
