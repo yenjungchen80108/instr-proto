@@ -6,17 +6,16 @@ import { useRouter } from "next/router";
 import { actConfigSelector } from "@/events/202501/actPage/store/selector";
 import PanelContent from "@/components/PanelContent";
 import ActionButton from "@/components/ActionButton";
+import { renderDefaultSeeMore } from "@/components/PanelContent/utils";
 import styled from "styled-components";
 import { space } from "styled-system";
 import { withS3Host } from "@/utils/imageHost";
 import UploadBlock from "@/events/202501/actPage/components/UploadBlock";
+import { S3_FILE_NAME, INSTR_PAGE_ID } from "@/events/202501/actPage/constant";
 import { S3_BUCKET_NAME } from "@/constants/s3";
 
 import { checkFileExistInS3 } from "@/hoc/checkFileExist";
 import { useInstrCookies } from "@/hooks/useInstrCookies";
-
-import { renderDefaultSeeMore } from "@/components/PanelContent/utils";
-import { S3_FILE_NAME, INSTR_PAGE_ID } from "@/events/202501/actPage/constant";
 
 const Tab4 = ({ className, isEditMode, fileName, actInstrConfigData }) => {
   const {
@@ -97,4 +96,8 @@ const StyledSeeMore = styled.div`
 
 export default styled(Tab4)`
   ${space}
+
+  .btn-text {
+    margin-bottom: 5px;
+  }
 `;

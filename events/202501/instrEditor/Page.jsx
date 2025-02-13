@@ -15,7 +15,7 @@ const page = ({ ...props }) => {
   const router = useRouter();
 
   const handleGoBack = () => {
-    router.push(`/events/202501/act`);
+    router.push(`/events/202501/act/edit`);
   };
 
   if (!styles) {
