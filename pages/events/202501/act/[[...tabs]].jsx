@@ -3,10 +3,13 @@ import { useRouter } from "next/router";
 import Page from "@/events/202501/actPage/Page";
 import withEventReducer from "@/hoc/withEventReducer";
 import { wrapper } from "@/store/rootStore";
-
+import { S3_BUCKET_NAME } from "@/constants/s3";
+import { S3_FILE_NAME } from "@/events/202501/actPage/constant";
+import { getJsonFromS3 } from "@/hoc/fetchConfig";
+import s3 from "@/utils/s3";
+import { HeadObjectCommand } from "@aws-sdk/client-s3";
 import { setActConfig } from "@/events/202501/actPage/store/config/slice";
 import reducer from "@/events/202501/actPage/store";
-
 import { fetchConfigInfo } from "@/apis/fetchConfig";
 import { deepMerge } from "@/utils/mergeJson";
 
@@ -42,6 +45,20 @@ export const getServerSideProps = wrapper.getServerSideProps(
     let actConfigData = {};
     let actInstrConfigData = {};
     let combinedConfig = {};
+    let fileExist = false;
+
+    try {
+      await s3.send(
+        new HeadObjectCommand({ Bucket: S3_BUCKET_NAME, Key: S3_FILE_NAME })
+      );
+      fileExist = true;
+    } catch (error) {
+      if (error.name === "NotFound") {
+        fileExist = false;
+      } else {
+        throw error;
+      }
+    }
 
     try {
       res.setHeader(
@@ -52,13 +69,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
       actConfigData = await fetchConfigInfo({
         configUrl: "/config/events/202501/actPage.json",
       });
-      actInstrConfigData = await fetchConfigInfo({
-        configUrl: "/config/events/202501/actInstrPage.json",
-      });
+
+      if (fileExist) {
+        actInstrConfigData = await getJsonFromS3(S3_BUCKET_NAME, S3_FILE_NAME);
+      } else {
+        actInstrConfigData = await fetchConfigInfo({
+          configUrl: "/config/events/202501/actInstrPage.json",
+        });
+      }
 
       combinedConfig = deepMerge(actConfigData, actInstrConfigData);
 
-      console.log({ combinedConfig });
+      // console.log({ combinedConfig });
       store.dispatch(setActConfig({ actConfig: combinedConfig }));
     } catch (err) {
       console.log("error", err);
@@ -71,7 +93,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {
         configData: combinedConfig,
-        fileName: "config/202501/actInstrPage.json",
+        fileName: S3_FILE_NAME,
         actInstrConfigData,
       },
     };

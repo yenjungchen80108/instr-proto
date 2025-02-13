@@ -6,10 +6,16 @@ import { actConfigSelector } from "./store/selector";
 import * as Tabs from "@radix-ui/react-tabs";
 import Tab4 from "./panels/Tab4";
 
+const styles = {
+  colors: {
+    primary: "#000",
+  },
+};
+
 const Page = ({ isEditMode, ...props }) => {
-  const {
-    actConfig: { styles },
-  } = useSelector(actConfigSelector);
+  // const {
+  //   actConfig: { styles },
+  // } = useSelector(actConfigSelector);
 
   const tabConfig = [
     { label: "Act1", value: "tab1", content: "活動1" },
