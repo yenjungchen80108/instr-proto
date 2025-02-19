@@ -2,7 +2,6 @@ import { HeadObjectCommand } from "@aws-sdk/client-s3";
 import s3 from "@/utils/s3";
 
 export default async function handler(req, res) {
-  // 只允許 POST
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
     // 只要 headObject 可以正常執行，表示該物件存在
     await s3.send(
       new HeadObjectCommand({
-        Bucket: bucketName,
+        Bucket: process.env.AWS_BUCKET_NAME,
         Key: key,
       })
     );

@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 import styled from "styled-components";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
+import VersionSelector from "../components/VersionSelector";
+import { S3_FILE_NAME } from "@/events/202501/actPage/constant";
 
 import * as Tabs from "@radix-ui/react-tabs";
 
@@ -53,12 +55,15 @@ const Form = ({ fileName, instrTabId }) => {
       label: "Edit",
       value: "edit",
       content: (
-        <Edit
-          methods={methods}
-          formData={formData} // 表單基本資料
-          defaultValues={defaultValues} // 表單預設值
-          currentPanelData={currentPanelData} // 當前表單資料
-        />
+        <>
+          <VersionSelector onSelect={(versionId) => loadConfig(versionId)} />
+          <Edit
+            methods={methods}
+            formData={formData} // 表單基本資料
+            defaultValues={defaultValues} // 表單預設值
+            currentPanelData={currentPanelData} // 當前表單資料
+          />
+        </>
       ),
     },
     {
@@ -74,6 +79,33 @@ const Form = ({ fileName, instrTabId }) => {
       ),
     },
   ];
+
+  // 下拉選單選擇版本時，更新表單資料
+  const loadConfig = async (versionId) => {
+    const bucket = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+    const objectKey = S3_FILE_NAME;
+
+    const url = `https://${bucket}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${objectKey}?versionId=${versionId}`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch data");
+
+      const data = await response.json();
+
+      console.log("Fetched Data:", data); // 检查数据结构
+
+      // if (Array.isArray(data)) {
+      //   setCurFormData(data); // 只有是数组才更新
+      // } else {
+      //   console.error("Error: API did not return an array");
+      //   setCurFormData([]); // 设为空数组，避免 map 错误
+      // }
+    } catch (error) {
+      console.error("Error loading config:", error);
+      // setCurFormData([]); // 发生错误时设为空数组
+    }
+  };
 
   return (
     <FormProvider {...methods}>

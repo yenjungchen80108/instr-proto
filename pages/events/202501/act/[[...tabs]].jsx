@@ -3,15 +3,14 @@ import { useRouter } from "next/router";
 import Page from "@/events/202501/actPage/Page";
 import withEventReducer from "@/hoc/withEventReducer";
 import { wrapper } from "@/store/rootStore";
-import { S3_BUCKET_NAME } from "@/constants/s3";
 import { S3_FILE_NAME } from "@/events/202501/actPage/constant";
-import { getJsonFromS3 } from "@/hoc/fetchConfig";
-import s3 from "@/utils/s3";
-import { HeadObjectCommand } from "@aws-sdk/client-s3";
 import { setActConfig } from "@/events/202501/actPage/store/config/slice";
 import reducer from "@/events/202501/actPage/store";
 import { fetchConfigInfo } from "@/apis/fetchConfig";
 import { deepMerge } from "@/utils/mergeJson";
+import { S3_BUCKET_NAME } from "@/constants/s3";
+// import { checkFileExistInS3 } from "@/hoc/checkFileExistInS3";
+// import { getFileInS3 } from "@/hoc/getFileInS3";
 
 const IndexPage = ({ configData, ...props }) => {
   const { title, description, keywords } = configData.metaData;
@@ -47,18 +46,62 @@ export const getServerSideProps = wrapper.getServerSideProps(
     let combinedConfig = {};
     let fileExist = false;
 
+    /*
     try {
-      await s3.send(
-        new HeadObjectCommand({ Bucket: S3_BUCKET_NAME, Key: S3_FILE_NAME })
+      const checkFileResponse = await fetch(
+        `${API_BASE_URL}/api/gen-presigned-get-url?file=${S3_FILE_NAME}`
       );
-      fileExist = true;
-    } catch (error) {
-      if (error.name === "NotFound") {
-        fileExist = false;
-      } else {
-        throw error;
+
+      if (checkFileResponse.ok) {
+        const { url } = await checkFileResponse.json();
+        fileExist = true;
+        presignedUrl = url;
       }
+    } catch (error) {
+      console.error("Error fetching presigned URL:", error);
     }
+    */
+
+    const S3Url = `https://${S3_BUCKET_NAME}.s3.amazonaws.com/${S3_FILE_NAME}`;
+    try {
+      const response = await fetch(S3Url);
+
+      if (response.ok) {
+        fileExist = true;
+      } else {
+        fileExist = false;
+      }
+
+      if (fileExist) {
+        const jsonData = await response.json();
+        actInstrConfigData = jsonData;
+        // const jsonRes = await fetch(presignedUrl);
+        // actInstrConfigData = await jsonRes.json();
+      } else {
+        actInstrConfigData = await fetchConfigInfo({
+          configUrl: "/config/events/202501/actInstrPage.json",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching S3 URL:", error);
+      fileExist = false;
+    }
+
+    // try {
+    //   const fileExist = await checkFileExistInS3(S3_BUCKET_NAME, S3_FILE_NAME);
+    //   console.log("fileExist", fileExist);
+
+    //   if (fileExist) {
+    //     const fileData = await getFileInS3(S3_BUCKET_NAME, S3_FILE_NAME);
+    //     actInstrConfigData = fileData;
+    //   } else {
+    //     actInstrConfigData = await fetchConfigInfo({
+    //       configUrl: "/config/events/202501/actInstrPage.json",
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.error("Error checking file existence:", error);
+    // }
 
     try {
       res.setHeader(
@@ -70,17 +113,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
         configUrl: "/config/events/202501/actPage.json",
       });
 
-      if (fileExist) {
-        actInstrConfigData = await getJsonFromS3(S3_BUCKET_NAME, S3_FILE_NAME);
-      } else {
-        actInstrConfigData = await fetchConfigInfo({
-          configUrl: "/config/events/202501/actInstrPage.json",
-        });
-      }
-
       combinedConfig = deepMerge(actConfigData, actInstrConfigData);
 
-      // console.log({ combinedConfig });
       store.dispatch(setActConfig({ actConfig: combinedConfig }));
     } catch (err) {
       console.log("error", err);

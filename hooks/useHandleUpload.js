@@ -18,7 +18,7 @@ export const useHandleUpload = () => {
   const handleUpload = useCallback(async (fileName, dataToUpload) => {
     try {
       // 1. 向後端拿 presigned URL
-      const response = await fetch("/api/gen-presigned-url", {
+      const response = await fetch("/api/gen-presigned-post-url", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

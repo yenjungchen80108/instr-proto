@@ -15,16 +15,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    const bucketName = S3_BUCKET_NAME; // 替换为你的 S3 存储桶名称
-    const key = `${fileName}`; // S3 中文件的路径和名称
+    const bucketName = process.env.AWS_BUCKET_NAME || S3_BUCKET_NAME;
+    const key = `${fileName}`;
 
     const command = new PutObjectCommand({
       Bucket: bucketName,
       Key: key,
-      ContentType: "application/json", // 上传文件类型
+      ContentType: "application/json",
     });
 
-    const presignedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // URL 有效期 1 小时
+    const presignedUrl = await getSignedUrl(s3, command, { expiresIn: 900 }); // URL 有效期 15 分钟
 
     res.status(200).json({ url: presignedUrl, key });
   } catch (error) {
