@@ -3,8 +3,11 @@ import { fromIni } from "@aws-sdk/credential-providers";
 
 // 初始化 S3 Client (Server-Side)
 const s3 = new S3Client({
-  region: "us-east-1",
-  credentials: fromIni({ profile: "personal" }), // 只在 Server-side 運行
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
 });
 
 export default s3;
