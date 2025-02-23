@@ -1,6 +1,12 @@
+import styled from "styled-components";
 import { useEffect, useState } from "react";
+import {
+  DropdownContainer,
+  StyledSelect,
+  StyledOption,
+} from "../../../../../components/Fields/DropDown/styles";
 
-export default function VersionSelector({ onSelect }) {
+const VersionSelector = ({ className, onSelect }) => {
   const [versions, setVersions] = useState([]);
 
   useEffect(() => {
@@ -11,15 +17,20 @@ export default function VersionSelector({ onSelect }) {
   }, []);
 
   return (
-    <div>
+    <DropdownContainer className={className}>
       <label>選擇版本：</label>
-      <select onChange={(e) => onSelect(e.target.value)}>
+      <StyledSelect onChange={(e) => onSelect(e.target.value)}>
         {versions?.map((v) => (
-          <option key={v.VersionId} value={v.VersionId}>
-            {new Date(v.LastModified).toLocaleString()} (ID: {v.VersionId})
-          </option>
+          <StyledOption key={v.VersionId} value={v.VersionId}>
+            {new Date(v.LastModified).toLocaleString()} (ID:{" "}
+            {v.VersionId.slice(0, 10)})
+          </StyledOption>
         ))}
-      </select>
-    </div>
+      </StyledSelect>
+    </DropdownContainer>
   );
-}
+};
+
+export default styled(VersionSelector)`
+  padding: 10px;
+`;

@@ -19,8 +19,8 @@ export const StyledPreviewBlock = styled.div`
 `;
 
 export const StyledBtn = styled.div`
-  border: 1px solid #b1b1b1;
-  color: #b1b1b1;
+  border: 1px solid #000;
+  color: #000;
   background: #fff;
   border-radius: 10px;
   width: 60px;

@@ -4,7 +4,7 @@ import { space } from "styled-system";
 
 import { DropdownContainer, StyledSelect, StyledOption } from "./styles";
 
-const Dropdown = ({ formFields, dropType, onSelect, className }) => {
+const Dropdown = ({ formFields, dropType, onSelect, disabled, className }) => {
   const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
@@ -21,7 +21,11 @@ const Dropdown = ({ formFields, dropType, onSelect, className }) => {
 
   return (
     <DropdownContainer className={className}>
-      <StyledSelect value={selectedId} onChange={handleChange} disabled>
+      <StyledSelect
+        value={selectedId}
+        onChange={handleChange}
+        disabled={disabled}
+      >
         <StyledOption value="">請選擇說明頁類別</StyledOption>
         {Object.keys(formFields)?.map((id) => (
           <StyledOption key={id} value={id}>

@@ -7,6 +7,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
+  const count = req.query.count || 5;
+
   const bucketName = process.env.AWS_BUCKET_NAME;
   const objectKey = S3_FILE_NAME;
 
@@ -27,7 +29,7 @@ export default async function handler(req, res) {
     // 過濾掉 Delete Marker
     const validVersions = response.Versions.filter((v) => !v.DeleteMarker)
       .sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified)) // 依照時間排序
-      .slice(0, 5); // 只取最近 5 個版本
+      .slice(0, count); // 只取最近 5 個版本
 
     // 格式化回傳結果
     const versionList = validVersions.map((v) => ({

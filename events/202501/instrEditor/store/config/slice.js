@@ -11,6 +11,9 @@ export const initialState = {
   },
   actConfig: {},
   instrTempConfig: {},
+  isEdit: false,
+  isPreview: false,
+  isLoadVersion: false,
 };
 
 const slice = createSlice({
@@ -26,6 +29,11 @@ const slice = createSlice({
     setInstrTempConfig: (state, action) => {
       state.instrTempConfig = action.payload.instrTempConfig;
     },
+    setFormState: (state, action) => {
+      state.isEdit = action.payload.isEdit || false;
+      state.isPreview = action.payload.isPreview || false;
+      state.isLoadVersion = action.payload.isLoadVersion || false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(HYDRATE, (state, { payload }) => {
@@ -37,7 +45,11 @@ const slice = createSlice({
   },
 });
 
-export const { setInstrConfig, setActConfig, setInstrTempConfig } =
-  slice.actions;
+export const {
+  setInstrConfig,
+  setActConfig,
+  setInstrTempConfig,
+  setFormState,
+} = slice.actions;
 
 export default slice.reducer;
