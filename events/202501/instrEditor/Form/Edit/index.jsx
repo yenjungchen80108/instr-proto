@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import Dropdown from "@/components/Fields/DropDown";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
-import { setInstrTempConfig } from "@/events/202501/instrEditor/store/config/slice";
+import {
+  setInstrTempConfig,
+  setFormState,
+} from "@/events/202501/instrEditor/store/config/slice";
 import ImageWithCollapseModal from "../../components/ImageWithCollapseModal";
 import ImageWithNavTab from "../../components/ImageWithNavTab";
 import SingleStaticImage from "../../components/SingleStaticImage";
@@ -32,15 +35,24 @@ const Edit = ({
   const dispatch = useDispatch();
   const {
     instrConfig: { formFields },
+    isPreview,
   } = useSelector(instrConfigSelector);
-  const [isPreview, setIsPreview] = useState(false); // 是否為預覽模式
 
-  const handleSave = methods.handleSubmit((data) => {
-    setIsPreview(true); // 進入預覽模式
+  const handleSave = methods.handleSubmit(async (data) => {
+    await methods.trigger();
+    dispatch(
+      setFormState({ isPreview: true, isEdit: false, isLoadVersion: false })
+    );
 
     const updatedPanelData = formFieldsToInstrConfig(data, currentPanelData);
     dispatch(setInstrTempConfig({ instrTempConfig: updatedPanelData }));
   });
+
+  const handleEdit = () => {
+    dispatch(
+      setFormState({ isPreview: false, isEdit: true, isLoadVersion: false })
+    );
+  };
 
   return (
     <div className={className}>
@@ -70,7 +82,7 @@ const Edit = ({
 
       <div className="btn-group">
         {isPreview ? (
-          <StyledBtn type="button" onClick={() => setIsPreview(false)}>
+          <StyledBtn type="button" onClick={handleEdit}>
             Edit
           </StyledBtn>
         ) : (

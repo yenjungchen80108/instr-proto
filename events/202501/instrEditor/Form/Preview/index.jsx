@@ -31,8 +31,7 @@ const Preview = ({
 
   const onUploadClick = (e) => {
     e.preventDefault();
-    console.log("fileName instr", fileName);
-    console.log("panelData instr", newPanelsConfig);
+
     handleUpload(fileName, newPanelsConfig);
   };
 

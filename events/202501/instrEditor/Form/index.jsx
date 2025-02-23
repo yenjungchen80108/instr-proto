@@ -1,42 +1,83 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, useReducer } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 import styled from "styled-components";
 import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
 import VersionSelector from "../components/VersionSelector";
 import { S3_FILE_NAME } from "@/events/202501/actPage/constant";
-
+import { setFormState } from "@/events/202501/instrEditor/store/config/slice";
 import * as Tabs from "@radix-ui/react-tabs";
 
 import Edit from "./Edit";
 import Preview from "./Preview";
-
 import { instrConfigToFormFields } from "@/utils/jsonAdapter";
 import { extractRegisterValues } from "./utils";
 
+// 定義 useReducer 的 actions
+const FORM_ACTIONS = {
+  INIT: "INIT",
+  EDIT: "EDIT",
+  LOAD_VERSION: "LOAD_VERSION",
+};
+
+// useReducer 處理函數
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case FORM_ACTIONS.INIT:
+      return action.payload; // 初始化表單
+    case FORM_ACTIONS.EDIT:
+      return action.payload; // 編輯時更新
+    case FORM_ACTIONS.LOAD_VERSION:
+      return action.payload; // 選擇歷史版本後更新
+    default:
+      return state;
+  }
+};
+
 const Form = ({ fileName, instrTabId }) => {
+  const dispatch = useDispatch();
+  const [curVersionId, setCurVersionId] = useState();
+
   const {
     instrConfig: { formFields },
     actConfig: { panelsConfig },
     instrTempConfig,
+    isEdit,
+    isPreview,
+    isLoadVersion,
   } = useSelector(instrConfigSelector);
-  const [formData, setFormData] = useState([]);
 
-  const { panelData } = panelsConfig?.[instrTabId] || {};
-
-  const [currentPanelData, setCurrentPanelData] = useState(panelData);
+  // 使用 useReducer 處理表單數據
+  const [currentPanelData, dispatchForm] = useReducer(formReducer, []);
 
   useEffect(() => {
-    // 如果 instrTempConfig 有值，則更新 currentPanelData
-    if (instrTempConfig?.length > 0) {
-      setCurrentPanelData(instrTempConfig);
+    let sourceData = [];
+
+    // 預覽模式
+    if (isPreview && !isEdit && !isLoadVersion) {
+      sourceData = instrTempConfig;
     }
 
-    const currentFormFields =
-      instrConfigToFormFields(currentPanelData, formFields) || [];
-    setFormData(currentFormFields);
-  }, [instrTempConfig, panelsConfig, currentPanelData]);
+    // 編輯模式
+    if (curVersionId) {
+      sourceData = currentPanelData;
+    }
 
+    dispatchForm({ type: FORM_ACTIONS.INIT, payload: sourceData });
+    methods.reset(
+      { defaultValues: instrConfigToFormFields(sourceData, formFields) },
+      {
+        keepDefaultValues: false,
+      }
+    );
+
+    if (curVersionId) {
+      setCurVersionId(null);
+    }
+  }, [instrTempConfig, curVersionId, instrTabId]); // 監聽這些變數的變化
+
+  // 表單資料
+  const formData = instrConfigToFormFields(currentPanelData, formFields) || [];
   const defaultValues = formData.reduce((acc, item, index) => {
     if (item.fields && Array.isArray(item.fields)) {
       extractRegisterValues(item.fields, acc, index);
@@ -44,11 +85,40 @@ const Form = ({ fileName, instrTabId }) => {
     return acc;
   }, {});
 
+  const formKey = curVersionId || "default";
   const methods = useForm({
     mode: "onChange",
+    key: formKey,
     defaultValues,
     shouldFocusError: false,
   });
+
+  // 選擇歷史版本時，加載新數據
+  const loadConfig = async (versionId) => {
+    const bucket = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
+    const objectKey = S3_FILE_NAME;
+    setCurVersionId(versionId);
+
+    dispatch(
+      setFormState({ isEdit: true, isPreview: false, isLoadVersion: true })
+    );
+
+    const url = `https://${bucket}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${objectKey}?versionId=${versionId}`;
+
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch data");
+
+      const newData = await response.json();
+
+      dispatchForm({
+        type: FORM_ACTIONS.LOAD_VERSION,
+        payload: newData?.panelsConfig[instrTabId].panelData,
+      });
+    } catch (error) {
+      console.error("Error loading config:", error);
+    }
+  };
 
   const tabConfig = [
     {
@@ -57,11 +127,12 @@ const Form = ({ fileName, instrTabId }) => {
       content: (
         <>
           <VersionSelector onSelect={(versionId) => loadConfig(versionId)} />
+          <hr />
           <Edit
             methods={methods}
-            formData={formData} // 表單基本資料
-            defaultValues={defaultValues} // 表單預設值
-            currentPanelData={currentPanelData} // 當前表單資料
+            formData={formData}
+            defaultValues={defaultValues}
+            currentPanelData={currentPanelData}
           />
         </>
       ),
@@ -71,7 +142,7 @@ const Form = ({ fileName, instrTabId }) => {
       value: "preview",
       content: (
         <Preview
-          panelData={currentPanelData} // 預覽資料
+          panelData={currentPanelData}
           fileName={fileName}
           instrTabId={instrTabId}
           panelsConfig={panelsConfig}
@@ -79,33 +150,6 @@ const Form = ({ fileName, instrTabId }) => {
       ),
     },
   ];
-
-  // 下拉選單選擇版本時，更新表單資料
-  const loadConfig = async (versionId) => {
-    const bucket = process.env.NEXT_PUBLIC_AWS_BUCKET_NAME;
-    const objectKey = S3_FILE_NAME;
-
-    const url = `https://${bucket}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${objectKey}?versionId=${versionId}`;
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch data");
-
-      const data = await response.json();
-
-      console.log("Fetched Data:", data); // 检查数据结构
-
-      // if (Array.isArray(data)) {
-      //   setCurFormData(data); // 只有是数组才更新
-      // } else {
-      //   console.error("Error: API did not return an array");
-      //   setCurFormData([]); // 设为空数组，避免 map 错误
-      // }
-    } catch (error) {
-      console.error("Error loading config:", error);
-      // setCurFormData([]); // 发生错误时设为空数组
-    }
-  };
 
   return (
     <FormProvider {...methods}>
@@ -139,7 +183,6 @@ const Form = ({ fileName, instrTabId }) => {
 
 export default styled(Form)`
   padding: 10px 8px;
-
   .btn-group {
     display: flex;
     justify-content: flex-end;
