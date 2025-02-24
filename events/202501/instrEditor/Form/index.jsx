@@ -53,12 +53,17 @@ const Form = ({ fileName, instrTabId }) => {
   useEffect(() => {
     let sourceData = [];
 
-    // 預覽模式
+    // 初始編輯模式
+    if (isEdit && !isLoadVersion && !isPreview) {
+      sourceData = panelsConfig[instrTabId].panelData;
+    }
+
+    // 預覽返回編輯模式
     if (isPreview && !isEdit && !isLoadVersion) {
       sourceData = instrTempConfig;
     }
 
-    // 編輯模式
+    // 載入歷史版本模式
     if (curVersionId) {
       sourceData = currentPanelData;
     }
@@ -74,7 +79,7 @@ const Form = ({ fileName, instrTabId }) => {
     if (curVersionId) {
       setCurVersionId(null);
     }
-  }, [instrTempConfig, curVersionId, instrTabId]); // 監聽這些變數的變化
+  }, [instrTempConfig, curVersionId, instrTabId]);
 
   // 表單資料
   const formData = instrConfigToFormFields(currentPanelData, formFields) || [];

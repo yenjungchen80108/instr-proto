@@ -11,7 +11,7 @@ export const initialState = {
   },
   actConfig: {},
   instrTempConfig: {},
-  isEdit: false,
+  isEdit: true,
   isPreview: false,
   isLoadVersion: false,
 };
