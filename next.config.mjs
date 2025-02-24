@@ -14,10 +14,10 @@ const nextConfig = {
     },
   },
   env: {
-    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME, // 只在服务器端可用
-    AWS_REGION: process.env.AWS_REGION, // 只在服务器端可用
-    NEXT_PUBLIC_AWS_BUCKET_NAME: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME, // ✅ 允许前端访问
-    NEXT_PUBLIC_AWS_REGION: process.env.NEXT_PUBLIC_AWS_REGION, // ✅ 允许前端访问
+    AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
+    AWS_REGION: process.env.AWS_REGION,
+    NEXT_PUBLIC_AWS_BUCKET_NAME: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
+    NEXT_PUBLIC_AWS_REGION: process.env.NEXT_PUBLIC_AWS_REGION,
   },
 };
 
