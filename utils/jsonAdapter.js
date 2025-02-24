@@ -9,7 +9,7 @@ export const instrConfigToFormFields = (panelData, formFields) => {
 
   // 遞歸取 fields
   const extractFields = (fields, data, result, index, dropType) => {
-    fields.forEach((field) => {
+    fields?.forEach((field) => {
       const registerName = field?.registerName;
       let value = null;
 
@@ -44,7 +44,7 @@ export const instrConfigToFormFields = (panelData, formFields) => {
   };
 
   if (panelData) {
-    panelData.forEach((data, index) => {
+    panelData?.forEach((data, index) => {
       const fields = formFields[data.id]?.fields;
       if (fields) {
         extractFields(fields, data, result, index, data.id);
@@ -56,6 +56,7 @@ export const instrConfigToFormFields = (panelData, formFields) => {
 };
 
 /**
+ * 將 formFields 轉換成 instrConfig
  * @param {object} instrTempConfig - 前端表單產生的暫存資料（含 _X 後綴）
  * @param {Array} panelData - 原始的 panelData
  * @returns {Array} 更新後的 panelData (深拷貝，不會改動原始 panelData)
