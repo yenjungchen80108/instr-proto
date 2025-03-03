@@ -36,10 +36,14 @@ export default async function handler(req, res) {
       Bucket: bucketName,
       Key: key,
       ContentType: "application/json",
+      Metadata: {
+        "Cache-Control": "no-cache",
+      },
     });
 
     const presignedUrl = await getSignedUrl(s3, command, { expiresIn: 900 }); // URL 有效期 15 分钟
 
+    // **Step 3: 返回最新 ETag 和 Presigned URL**
     res.status(200).json({ url: presignedUrl, key, latestETag });
   } catch (error) {
     console.error("Error generating presigned URL:", error);

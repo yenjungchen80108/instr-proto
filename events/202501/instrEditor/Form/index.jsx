@@ -7,7 +7,8 @@ import VersionSelector from "../components/VersionSelector";
 import { S3_FILE_NAME } from "@/events/202501/actPage/constant";
 import { setFormState } from "@/events/202501/instrEditor/store/config/slice";
 import * as Tabs from "@radix-ui/react-tabs";
-
+// import { useHandleUpload } from "@/hooks/useHandleUpload";
+import { useFetchInitialETag } from "@/hooks/useFetchInitialEtag";
 import Edit from "./Edit";
 import Preview from "./Preview";
 import { instrConfigToFormFields } from "@/utils/jsonAdapter";
@@ -97,6 +98,12 @@ const Form = ({ fileName, instrTabId }) => {
     defaultValues,
     shouldFocusError: false,
   });
+
+  // 記錄 initialETag
+  useFetchInitialETag(fileName);
+  // useEffect(() => {
+  //   setInitialETag(latestETag);
+  // }, [latestETag]);
 
   // 選擇歷史版本時，加載新數據
   const loadConfig = async (versionId) => {

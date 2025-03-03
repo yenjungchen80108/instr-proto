@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
+import React, { useState } from "react";
 import PanelContent from "@/components/PanelContent";
 import { withS3Host } from "@/utils/imageHost";
 import { renderDefaultSeeMore } from "@/components/PanelContent/utils";
@@ -23,6 +23,7 @@ const Preview = ({
     setShowConflictModal,
     latestData,
   } = useHandleUpload();
+  const [openConflictModal, setOpenConflictModal] = useState(showConflictModal);
 
   const { panelData: oldPanelData, ...rest } = panelsConfig?.[instrTabId] || {};
 
@@ -41,21 +42,28 @@ const Preview = ({
     handleUpload(fileName, newPanelsConfig);
   };
 
+  const onOpenConflictModal = (e) => {
+    e.preventDefault();
+
+    setOpenConflictModal(true);
+  };
+
   return (
     <StyledPreviewBlock className={className}>
       <button onClick={onUploadClick}>Upload to S3</button>
       {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
+      <button onClick={onOpenConflictModal}>Show Conflict Modal</button>
       <ConflictModal
-        isOpen={showConflictModal}
+        isOpen={openConflictModal}
         latestData={latestData}
-        onClose={() => setShowConflictModal(false)}
+        onClose={() => setOpenConflictModal(false)}
         onResolveConflict={(useLatest) => {
           if (useLatest) {
             console.log("使用最新版本");
           } else {
             console.log("保留我的變更");
           }
-          setShowConflictModal(false);
+          setOpenConflictModal(false);
         }}
       />
 
