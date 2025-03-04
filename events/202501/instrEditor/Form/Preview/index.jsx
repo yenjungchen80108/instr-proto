@@ -15,14 +15,15 @@ const Preview = ({
   fileName,
   instrTabId,
   panelsConfig,
+  initialETag,
 }) => {
   const {
     handleUpload,
     uploadStatus,
     showConflictModal,
     setShowConflictModal,
-    latestData,
-  } = useHandleUpload();
+    latestETag,
+  } = useHandleUpload(fileName);
   const [openConflictModal, setOpenConflictModal] = useState(showConflictModal);
 
   const { panelData: oldPanelData, ...rest } = panelsConfig?.[instrTabId] || {};
@@ -39,7 +40,7 @@ const Preview = ({
   const onUploadClick = (e) => {
     e.preventDefault();
 
-    handleUpload(fileName, newPanelsConfig);
+    handleUpload(fileName, newPanelsConfig, initialETag);
   };
 
   const onOpenConflictModal = (e) => {
@@ -53,9 +54,12 @@ const Preview = ({
       <button onClick={onUploadClick}>Upload to S3</button>
       {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
       <button onClick={onOpenConflictModal}>Show Conflict Modal</button>
+
       <ConflictModal
         isOpen={openConflictModal}
-        latestData={latestData}
+        initialETag={initialETag}
+        latestETag={latestETag}
+        fileName={fileName}
         onClose={() => setOpenConflictModal(false)}
         onResolveConflict={(useLatest) => {
           if (useLatest) {

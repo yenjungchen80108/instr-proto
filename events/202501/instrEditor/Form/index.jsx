@@ -8,7 +8,6 @@ import { S3_FILE_NAME } from "@/events/202501/actPage/constant";
 import { setFormState } from "@/events/202501/instrEditor/store/config/slice";
 import * as Tabs from "@radix-ui/react-tabs";
 // import { useHandleUpload } from "@/hooks/useHandleUpload";
-import { useFetchInitialETag } from "@/hooks/useFetchInitialEtag";
 import Edit from "./Edit";
 import Preview from "./Preview";
 import { instrConfigToFormFields } from "@/utils/jsonAdapter";
@@ -38,6 +37,7 @@ const formReducer = (state, action) => {
 const Form = ({ fileName, instrTabId }) => {
   const dispatch = useDispatch();
   const [curVersionId, setCurVersionId] = useState();
+  const [initialETag, setInitialETag] = useState(null);
 
   const {
     instrConfig: { formFields },
@@ -99,11 +99,29 @@ const Form = ({ fileName, instrTabId }) => {
     shouldFocusError: false,
   });
 
-  // 記錄 initialETag
-  useFetchInitialETag(fileName);
-  // useEffect(() => {
-  //   setInitialETag(latestETag);
-  // }, [latestETag]);
+  useEffect(() => {
+    if (!fileName) return;
+
+    const fetchLatestETag = async () => {
+      try {
+        const response = await fetch("/api/gen-presigned-post-url", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ fileName }),
+        });
+
+        if (!response.ok) throw new Error("Failed to get latest ETag");
+
+        const { latestETag } = await response.json();
+        console.log("initialETag", latestETag);
+        setInitialETag(latestETag);
+      } catch (error) {
+        console.error("Error fetching latest ETag:", error);
+      }
+    };
+
+    fetchLatestETag();
+  }, [fileName]);
 
   // 選擇歷史版本時，加載新數據
   const loadConfig = async (versionId) => {
@@ -158,6 +176,7 @@ const Form = ({ fileName, instrTabId }) => {
           fileName={fileName}
           instrTabId={instrTabId}
           panelsConfig={panelsConfig}
+          initialETag={initialETag}
         />
       ),
     },

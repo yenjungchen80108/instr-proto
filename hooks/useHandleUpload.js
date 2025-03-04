@@ -4,11 +4,10 @@ import { toast } from "react-toastify";
 /**
  * 處理 S3 上傳邏輯
  */
-export const useHandleUpload = () => {
+export const useHandleUpload = (fileName) => {
   const [uploadStatus, setUploadStatus] = useState("");
-  const [initialETag, setInitialETag] = useState(null); // 記錄初始 ETag
   const [showConflictModal, setShowConflictModal] = useState(false);
-  const [latestData, setLatestData] = useState(null);
+  const [latestETag, setLatestETag] = useState(null);
 
   /**
    * 獲取 Presigned URL 並獲取最新 ETag
@@ -25,11 +24,6 @@ export const useHandleUpload = () => {
 
       const { url, latestETag } = await response.json();
 
-      // 只在打開編輯器時記錄 initialETag
-      // if (!initialETag) {
-      //   setInitialETag(latestETag);
-      // }
-
       return { url, latestETag };
     } catch (error) {
       console.error("Error getting presigned URL:", error);
@@ -40,15 +34,19 @@ export const useHandleUpload = () => {
    * 處理上傳邏輯
    */
   const handleUpload = useCallback(
-    async (fileName, dataToUpload) => {
+    async (fileName, dataToUpload, initialETag) => {
       try {
         // **獲取 Presigned URL 和 最新的 ETag**
         const { url, latestETag } = await fetchPresignedUrl(fileName);
+
+        console.log("initialETag", initialETag);
+        console.log("latestETag", latestETag);
 
         // **比對 initialETag 和 latestETag**
         if (initialETag && latestETag !== initialETag) {
           console.warn("Version conflict detected!");
           setShowConflictModal(true);
+          setLatestETag(latestETag);
           return;
         }
 
@@ -68,16 +66,6 @@ export const useHandleUpload = () => {
         if (uploadResponse.status === 412) {
           console.warn("Version conflict detected!");
           setShowConflictModal(true);
-
-          // **獲取最新數據**
-          const latestConfigResponse = await fetch(
-            `/api/get-latest-config?fileName=${fileName}`
-          );
-          if (latestConfigResponse.ok) {
-            const latestConfig = await latestConfigResponse.json();
-            setLatestData(latestConfig);
-          }
-
           return;
         }
 
@@ -91,7 +79,7 @@ export const useHandleUpload = () => {
         setUploadStatus("Upload failed");
       }
     },
-    [initialETag]
+    []
   );
 
   return {
@@ -99,7 +87,6 @@ export const useHandleUpload = () => {
     uploadStatus,
     showConflictModal,
     setShowConflictModal,
-    latestData,
-    setInitialETag,
+    latestETag,
   };
 };
