@@ -36,7 +36,7 @@ const formReducer = (state, action) => {
 
 const Form = ({ fileName, instrTabId }) => {
   const dispatch = useDispatch();
-  const [curVersionId, setCurVersionId] = useState();
+  const [curVersionId, setCurVersionId] = useState(null);
   const [initialETag, setInitialETag] = useState(null);
 
   const {
@@ -51,6 +51,7 @@ const Form = ({ fileName, instrTabId }) => {
   // 使用 useReducer 處理表單數據
   const [currentPanelData, dispatchForm] = useReducer(formReducer, []);
 
+  // 監聽表單數據
   useEffect(() => {
     let sourceData = [];
 
@@ -99,6 +100,7 @@ const Form = ({ fileName, instrTabId }) => {
     shouldFocusError: false,
   });
 
+  // get initial etag
   useEffect(() => {
     if (!fileName) return;
 

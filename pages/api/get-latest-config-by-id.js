@@ -8,20 +8,19 @@ import { S3_BUCKET_NAME } from "@/constants/s3";
 /**
  * API: 根据 initialETag 和 latestETag 取得对应 JSON 文件内容
  * @param {string} fileName - S3 文件名
- * @param {string} initialETag - 初始 ETag
- * @param {string} latestETag - 最新 ETag
+ * @param {string} latestVersionId - 最新 Version ID
  */
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Only POST requests allowed" });
   }
 
-  const { fileName, initialETag, latestETag } = req.body;
+  const { fileName, latestVersionId } = req.body;
 
-  if (!fileName || !initialETag || !latestETag) {
-    return res
-      .status(400)
-      .json({ message: "fileName, initialETag, and latestETag are required" });
+  if (!fileName || !latestVersionId) {
+    return res.status(400).json({
+      message: "fileName and latestVersionId are required",
+    });
   }
 
   try {
@@ -40,24 +39,7 @@ export default async function handler(req, res) {
         .json({ message: "No versions found for the given file." });
     }
 
-    // **Step 2: 找到 initialETag 和 latestETag 对应的 Version ID**
-    const findVersionIdByETag = (etag) => {
-      const version = listResponse.Versions.find(
-        (v) => v.ETag.replace(/"/g, "") === etag
-      );
-      return version ? version.VersionId : null;
-    };
-
-    const initialVersionId = findVersionIdByETag(initialETag);
-    const latestVersionId = findVersionIdByETag(latestETag);
-
-    if (!initialVersionId || !latestVersionId) {
-      return res
-        .status(404)
-        .json({ message: "Could not find versions for given ETags." });
-    }
-
-    // **Step 3: 取得对应版本的 JSON 文件**
+    // **Step 2: 取得对应版本的 JSON 文件**
     const fetchS3Json = async (versionId) => {
       const getObjectCommand = new GetObjectCommand({
         Bucket: bucketName,
@@ -70,12 +52,11 @@ export default async function handler(req, res) {
       return JSON.parse(body);
     };
 
-    const initialJson = await fetchS3Json(initialVersionId);
     const latestJson = await fetchS3Json(latestVersionId);
 
-    res.status(200).json({ initialJson, latestJson });
+    res.status(200).json({ latestJson });
   } catch (error) {
-    console.error("Error fetching previous and latest config:", error);
+    console.error("Error fetching latest config:", error);
     res.status(500).json({ message: "Failed to fetch config versions" });
   }
 }

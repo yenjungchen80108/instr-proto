@@ -16,6 +16,10 @@ export const StyledPreviewBlock = styled.div`
   .upload-status {
     color: var(--sky-11);
   }
+
+  .upload-btn {
+    margin-right: 10px;
+  }
 `;
 
 export const StyledBtn = styled.div`

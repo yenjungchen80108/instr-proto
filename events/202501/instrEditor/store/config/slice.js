@@ -3,14 +3,16 @@ import { HYDRATE } from "next-redux-wrapper";
 
 export const initialState = {
   error: null,
+  versionId: null,
   instrConfig: {
+    // 活動說明 config
     styles: {
       backgroundColor: "#ffffff",
       textColor: "#000000",
     },
   },
-  actConfig: {},
-  instrTempConfig: {},
+  actConfig: {}, // 活動 config
+  instrTempConfig: {}, // 活動說明暫存 config
   isEdit: true,
   isPreview: false,
   isLoadVersion: false,
@@ -30,6 +32,7 @@ const slice = createSlice({
       state.instrTempConfig = action.payload.instrTempConfig;
     },
     setFormState: (state, action) => {
+      state.versionId = action.payload.versionId;
       state.isEdit = action.payload.isEdit || false;
       state.isPreview = action.payload.isPreview || false;
       state.isLoadVersion = action.payload.isLoadVersion || false;

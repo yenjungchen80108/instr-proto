@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import { fetchJsonDiff } from "@/hoc/fetchJsonDiff";
+import { fetchJsonById } from "@/hoc/fetchJsonById";
 import useFetchJsonDiff from "@/hooks/useFetchJsonDiff";
+import { extractDiffData } from "./extractDiffData";
 
 const ConflictModal = ({
   isOpen,
-  initialETag,
-  latestETag,
+  curEditJson,
+  latestVersionId,
   fileName,
   onClose,
   onResolveConflict,
@@ -19,26 +20,28 @@ const ConflictModal = ({
     if (!isOpen) return;
 
     const fetchData = async () => {
-      if (!initialETag || !latestETag) {
+      if (!latestVersionId) {
         setHasDiff(false);
         return;
       }
 
-      const result = await fetchJsonDiff(fileName, initialETag, latestETag);
-      if (result?.initialJson && result?.latestJson) {
-        setInitialJson(result.initialJson);
+      const result = await fetchJsonById(fileName, latestVersionId);
+      if (result?.latestJson) {
+        setInitialJson(curEditJson);
         setLatestJson(result.latestJson);
         setHasDiff(true);
       }
     };
 
     fetchData();
-  }, [isOpen, fileName, initialETag, latestETag]);
+  }, [isOpen, fileName, latestVersionId]);
 
   const jsonDiff = useFetchJsonDiff(initialJson, latestJson);
 
   if (!isOpen) return null;
 
+  const diffData = extractDiffData(jsonDiff?.panelsConfig?.["4"]?.panelData);
+  // console.log("diffData", diffData);
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -49,9 +52,46 @@ const ConflictModal = ({
           </button>
         </div>
 
+        {/* {hasDiff && (
+          <div className="modal-body">
+            <div className="version-content">
+              <p>Diff</p>
+              <pre>
+                {jsonDiff ? JSON.stringify(jsonDiff, null, 2) : "Loading..."}
+              </pre>
+            </div>
+          </div>
+        )} */}
         {hasDiff && (
           <div className="modal-body">
-            <p>有人已經修改了此數據，請選擇如何處理您的變更：</p>
+            <p>有人已修改此數據，請選擇如何處理您的更改：</p>
+
+            {/* ✅ 生成表格 */}
+            {diffData.length > 0 ? (
+              <table className="diff-table">
+                <thead>
+                  <tr>
+                    <th>欄位名稱</th>
+                    <th>原始值 (Old)</th>
+                    <th>新值 (New)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {diffData.map(({ index, changes }) =>
+                    changes.map(({ keyPath, oldValue, newValue }) => (
+                      <tr key={keyPath}>
+                        <td>{keyPath}</td>
+                        <td className="old-value">{oldValue}</td>
+                        <td className="new-value">{newValue}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            ) : (
+              <p>没有可比较的变更</p>
+            )}
+
             <div className="version-content">
               <p>Diff</p>
               <pre>

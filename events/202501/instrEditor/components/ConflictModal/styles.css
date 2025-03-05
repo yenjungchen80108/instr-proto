@@ -16,6 +16,7 @@
 .modal {
   background: white;
   width: 350px;
+
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -47,12 +48,14 @@
   padding: 16px;
   font-size: 14px;
   color: #333;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 /* JSON 顯示區 */
 .version-content {
   margin-top: 10px;
-  max-height: 500px;
+  max-height: 200px;
   overflow-y: auto;
 }
 
@@ -118,4 +121,44 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.diff-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.diff-table th,
+.diff-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.diff-table th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+}
+
+/* ✅ Git 风格的 Diff 颜色 */
+.old-value {
+  background-color: #ffecec;
+  color: #d8000c;
+  font-weight: bold;
+}
+
+.new-value {
+  background-color: #eaffea;
+  color: #008000;
+  font-weight: bold;
+}
+
+/* 表格边框优化 */
+.diff-table tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.diff-table tr:last-child {
+  border-bottom: none;
 }

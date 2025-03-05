@@ -1,14 +1,17 @@
 import { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+
+import { setFormState } from "@/events/202501/instrEditor/store/config/slice";
 
 /**
  * 處理 S3 上傳邏輯
  */
-export const useHandleUpload = (fileName) => {
+export const useHandleUpload = () => {
+  const dispatch = useDispatch();
   const [uploadStatus, setUploadStatus] = useState("");
   const [showConflictModal, setShowConflictModal] = useState(false);
-  const [latestETag, setLatestETag] = useState(null);
-
+  // const [latestVersionId, setLatestVersionId] = useState(null);
   /**
    * 獲取 Presigned URL 並獲取最新 ETag
    */
@@ -31,22 +34,38 @@ export const useHandleUpload = (fileName) => {
   }, []);
 
   /**
+   * 獲取最新版本 ID
+   */
+  const fetchLatestVersionId = useCallback(async () => {
+    try {
+      const response = await fetch("/api/list-object-versions");
+      const data = await response.json();
+
+      const versionId = data[0]?.VersionId;
+
+      return versionId;
+    } catch (error) {
+      console.error("Error getting latest version ID:", error);
+    }
+  }, []);
+
+  /**
    * 處理上傳邏輯
    */
   const handleUpload = useCallback(
     async (fileName, dataToUpload, initialETag) => {
       try {
-        // **獲取 Presigned URL 和 最新的 ETag**
+        // **獲取 Presigned URL**
         const { url, latestETag } = await fetchPresignedUrl(fileName);
-
-        console.log("initialETag", initialETag);
-        console.log("latestETag", latestETag);
+        const latestVId = await fetchLatestVersionId(fileName);
 
         // **比對 initialETag 和 latestETag**
         if (initialETag && latestETag !== initialETag) {
           console.warn("Version conflict detected!");
           setShowConflictModal(true);
-          setLatestETag(latestETag);
+          toast.error(`S3 Upload Error: Version conflict detected!`);
+          // setLatestVersionId(latestVId);
+          dispatch(setFormState({ versionId: latestVId }));
           return;
         }
 
@@ -64,7 +83,8 @@ export const useHandleUpload = (fileName) => {
 
         // **處理 412 版本沖突**
         if (uploadResponse.status === 412) {
-          console.warn("Version conflict detected!");
+          console.error("Version conflict detected!");
+          // toast.error(`S3 Upload Error: Version conflict detected!`);
           setShowConflictModal(true);
           return;
         }
@@ -87,6 +107,6 @@ export const useHandleUpload = (fileName) => {
     uploadStatus,
     showConflictModal,
     setShowConflictModal,
-    latestETag,
+    // latestVersionId,
   };
 };

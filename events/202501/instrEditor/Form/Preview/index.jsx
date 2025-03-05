@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import PanelContent from "@/components/PanelContent";
 import { withS3Host } from "@/utils/imageHost";
 import { renderDefaultSeeMore } from "@/components/PanelContent/utils";
@@ -8,6 +9,7 @@ import { useHandleUpload } from "@/hooks/useHandleUpload";
 import styled from "styled-components";
 import { StyledPreviewBlock } from "@/events/202501/instrEditor/Form/styles";
 import ConflictModal from "@/events/202501/instrEditor/components/ConflictModal";
+import { instrConfigSelector } from "@/events/202501/instrEditor/store/selector";
 
 const Preview = ({
   className,
@@ -17,14 +19,10 @@ const Preview = ({
   panelsConfig,
   initialETag,
 }) => {
-  const {
-    handleUpload,
-    uploadStatus,
-    showConflictModal,
-    setShowConflictModal,
-    latestETag,
-  } = useHandleUpload(fileName);
+  const { handleUpload, uploadStatus, showConflictModal } =
+    useHandleUpload(fileName);
   const [openConflictModal, setOpenConflictModal] = useState(showConflictModal);
+  const { versionId } = useSelector(instrConfigSelector);
 
   const { panelData: oldPanelData, ...rest } = panelsConfig?.[instrTabId] || {};
 
@@ -51,14 +49,15 @@ const Preview = ({
 
   return (
     <StyledPreviewBlock className={className}>
-      <button onClick={onUploadClick}>Upload to S3</button>
+      <button onClick={onUploadClick} className="upload-btn">
+        Upload to S3
+      </button>
       {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
       <button onClick={onOpenConflictModal}>Show Conflict Modal</button>
-
       <ConflictModal
+        curEditJson={newPanelsConfig}
         isOpen={openConflictModal}
-        initialETag={initialETag}
-        latestETag={latestETag}
+        latestVersionId={versionId}
         fileName={fileName}
         onClose={() => setOpenConflictModal(false)}
         onResolveConflict={(useLatest) => {
