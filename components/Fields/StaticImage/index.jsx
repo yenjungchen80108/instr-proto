@@ -31,7 +31,7 @@ const StaticImage = ({
       </h3>
       <SingleImageUploader
         onChange={(file) => handleImageUpdate(file, defaultValue)}
-        maxFileSize={1 * 1024 * 1024}
+        maxFileSize={5 * 1024 * 1024}
         // localModified={localModified}
         defaultImageUrl={defaultValue}
         registerName={registerName}

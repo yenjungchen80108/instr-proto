@@ -35,35 +35,43 @@ const useImageUploader = () => {
 
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", defaultValue);
-    formData.append("fileType", file.type);
-
-    console.log("file", file);
-
     try {
-      const response = await fetch("/api/upload-to-s3", {
+      // (1) 呼叫 /api/upload-to-s3，取得 presignedUrl
+      const res = await fetch("/api/upload-to-s3", {
         method: "POST",
-        body: formData, // 发送 FormData
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fileName: defaultValue, // S3 上的檔名（可自行改成帶路徑 e.g. "folder/file.png"）
+          fileType: file.type, // MIME類型
+        }),
       });
 
-      console.log("response", response);
-
-      if (!response.ok) {
-        throw new Error("Failed to upload image to S3");
+      if (!res.ok) {
+        throw new Error("Failed to get presigned URL");
       }
 
-      const { fileUrl } = await response.json();
-      console.log("S3 Upload Success:", fileUrl);
-      toast.success(`S3 Upload Success: ${fileUrl}`);
+      const { url } = await res.json();
+      // (2) 用拿到的 url 直接上傳 (PUT) 到 S3
+      const upload = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": file.type, // 跟後端 PutObjectCommand 的 ContentType 對應
+        },
+        body: file, // Blob or File 物件
+      });
 
-      dispatch(removeModifiedImage(defaultValue)); // 上传成功后移除
+      if (!upload.ok) {
+        throw new Error("Upload failed.");
+      }
+
+      // ✅ 上傳成功，可組出檔案的公開 URL（若 ACL=public-read）
+      const fileUrl = url.split("?")[0]; // 去掉 presigned URL query 參數
+      toast.success(`Upload success! File URL: ${fileUrl}`);
 
       return fileUrl;
     } catch (error) {
-      console.error("S3 Upload Error:", error);
-      toast.error(`S3 Upload Error: ${error.message}`);
+      console.error(error);
+      toast.error("Upload error: " + error.message);
       return null;
     }
   };
