@@ -111,6 +111,62 @@
   background: #5a6268;
 }
 
+.radio-box {
+  /* display: inline-flex;
+  align-items: center;
+  max-width: 80px;
+  overflow: scroll;
+  white-space: nowrap; */
+  position: relative;
+  padding-left: 22px; /* 给左边留空间显示自定义圆圈 */
+  margin-right: 0px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.4;
+  user-select: none;
+  max-width: 80px;
+  overflow: scroll;
+  white-space: nowrap;
+}
+
+.radio-box .radio-btn {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* 自定义圆圈外观 */
+.radio-box .radio-custom {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-color: #fff;
+  border: 2px solid #d0d7de; /* GitHub灰色边框 (可换成 #6e7781) */
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.radio-box .radio-btn:checked ~ .radio-custom::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #409fff; /* GitHub绿色 (可换成 #1a7f37 等) */
+}
+
+/* .radio-btn {
+  margin-right: 5px;
+} */
+
 /* 動畫 */
 @keyframes fadeIn {
   from {
@@ -139,6 +195,12 @@
 .diff-table th {
   background-color: #f7f7f7;
   font-weight: bold;
+}
+
+.path {
+  max-width: 120px;
+  overflow: scroll;
+  white-space: nowrap;
 }
 
 /* ✅ Git 风格的 Diff 颜色 */

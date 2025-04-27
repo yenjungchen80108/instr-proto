@@ -4,7 +4,7 @@
  * @param {string[]} parentPath - 當前屬性的路徑
  * @returns {Array<{ keyPath: string, oldValue: any, newValue: any }>}
  */
-function gatherChanges(obj, parentPath = []) {
+export const gatherChanges = (obj, parentPath = []) => {
   let changes = [];
 
   // 1) 先確認 obj 是物件（且不為 null）或陣列
@@ -32,7 +32,7 @@ function gatherChanges(obj, parentPath = []) {
   }
 
   return changes;
-}
+};
 
 /**
  * 對 panelData 做 map，逐一遞迴尋找每個 panel 內的差異

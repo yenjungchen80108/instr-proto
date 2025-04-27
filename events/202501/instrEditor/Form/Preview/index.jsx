@@ -68,6 +68,10 @@ const Preview = ({
           }
           setOpenConflictModal(false);
         }}
+        onSaveMergedJson={(mergedJson) => {
+          console.log("mergedJson", mergedJson);
+        }}
+        instrTabId={instrTabId}
       />
 
       <PanelContent

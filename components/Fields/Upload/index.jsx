@@ -72,7 +72,8 @@ const SingleImageUploader = ({
         </div>
         {/* <span className="file-name">{fileName || "未選擇任何檔案"}</span> */}
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             uploadToS3({ defaultValue: defaultImageUrl });
           }}
           disabled={modifiedImages ? !modifiedImages[defaultImageUrl] : true}
